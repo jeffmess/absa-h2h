@@ -4,17 +4,17 @@ transmission:
       a_n: N
       offset: 1
       length: 3
-      regex: /^0{3}$/
+      regex: ^0{3}$
     th_rec_status:
       a_n: A
       offset: 4
       length: 1
-      regex: /^T|L$/
+      regex: ^T|L$
     th_date:
       a_n: N
       offset: 5
       length: 8
-      regex: /^[0-9]{8}$/
+      regex: ^[0-9]{8}$
     th_client_code:
       a_n: N
       offset: 13
@@ -48,12 +48,12 @@ transmission:
       a_n: N
       offset: 1
       length: 3
-      regex: /^9{3}$/
+      regex: ^9{3}$
     tt_rec_status:
       a_n: A
       offset: 4
       length: 1
-      regex: /^T|L$/
+      regex: ^T|L$
     tt_no_of_recs:
       a_n: N
       offset: 5

@@ -24,12 +24,15 @@ module Absa
         
         def validate!(options)
           options.each do |k,v|
-            LAYOUT_RULES[k]
+            rule = LAYOUT_RULES[k.to_s]
+            
+            raise "#{k}: Input too long" if v.length > rule['length']
+            raise "#{k}: Invalid data" if rule['regex'] && ((v =~ /#{rule['regex']}/) != 0)
           end
         end
         
         def to_s
-          
+          @string
         end
         
       end
@@ -51,7 +54,7 @@ module Absa
         end
         
         def to_s
-          
+          @string
         end
       end
     end
