@@ -1,0 +1,46 @@
+transmission:
+  header:
+    th_rec_id:
+      a_n: N
+      offset: 1
+      length: 3
+      regex: /^0{3}$/
+    th_rec_status:
+      a_n: A
+      offset: 4
+      length: 1
+      regex: /^T|L$/
+    th_date:
+      a_n: N
+      offset: 5
+      length: 8
+      regex: /^[0-9]{8}$/
+    th_client_code:
+      a_n: N
+      offset: 13
+      length: 5
+    th_client_name:
+      a_n: A
+      offset: 18
+      length: 30
+    th_transmission_no:
+      a_n: N
+      offset: 48
+      length: 7
+    th_destination:
+      a_n: A
+      offset: 55
+      length: 5
+    filler_1:
+      a_n: A
+      offset: 60
+      length: 119 
+    th_for_use_of_ld_user:
+      a_n: A
+      offset: 179
+      length: 20
+    filler_2:
+      a_n: A
+      offset: 199
+      length: 2 
+  
