@@ -42,5 +42,24 @@ transmission:
     filler_2:
       a_n: A
       offset: 199
-      length: 2 
+      length: 2
+  trailer:
+    tt_rec_id:
+      a_n: N
+      offset: 1
+      length: 3
+      regex: /^9{3}$/
+    tt_rec_status:
+      a_n: A
+      offset: 4
+      length: 1
+      regex: /^T|L$/
+    tt_no_of_recs:
+      a_n: N
+      offset: 5
+      length: 9
+    filler:
+      a_n: A
+      offset: 14
+      length: 187
   
