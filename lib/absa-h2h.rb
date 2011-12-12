@@ -14,11 +14,11 @@ module Absa
       
       module InputValidation
         
-        def self.included?
-          layout_rules.each do |k,v|
-            self.send :attr_accessor, k
-          end
-        end
+        # def self.included?
+        #   layout_rules.each do |k,v|
+        #     self.send :attr_accessor, k
+        #   end
+        # end
         
         def layout_rules
           @layout_rules ||= LAYOUT_RULES[self.class.to_s.downcase.split("::")[-1]]
@@ -36,36 +36,68 @@ module Absa
         
       end
       
-      class Header
-        include InputValidation
+      module RecordWriter
         
-        # attr_accessor :th_rec_id, :th_rec_status, :th_date, :th_client_code, :th_client_name
-        #         attr_accessor :th_transmission_no, :th_destination, :th_for_use_of_ld_user
-        #         
-        def initialize(options = {})
+        def self.included?
           @string = " "*200
-          validate! options
         end
         
         def to_s
+          layout_rules.each do |field_name,rule|
+            puts field_name
+            puts rule.inspect
+            value = self.send field_name
+            
+
+            
+            # pad values
+            
+            if rule['a_n'] == 'N'
+              value = value.rjust(rule['length'], "0")
+            elsif rule['a_n'] == 'A'
+              value = value.ljust(rule['length'], " ")
+            end
+            
+            # insert into string
+            offset = rule['offset'] - 1
+            length = rule['length']
+            
+            @string[offset..length] = value
+          end
+          
           @string
+        end
+        
+      end
+      
+      class Header
+        include InputValidation
+        include RecordWriter
+        
+        attr_accessor :th_rec_id, :th_rec_status, :th_date, :th_client_code, :th_client_name, :th_transmission_no, :th_destination, :th_for_use_of_ld_user
+        
+        def initialize(options = {})
+          validate! options
+
+          puts self.methods.inspect
+          self.th_rec_id='test'
+          
+          options.each do |k,v|
+            instance_variable_set "@#{k}", v
+          end
         end
         
       end
       
       class Trailer
         include InputValidation
+        include RecordWriter
         
-        # attr_accessor :tt_rec_id, :th_rec_status, :tt_no_of_recs
-        #         
         def initialize(options = {})
-          @string = " "*200
           validate! options
+          
         end
-        
-        def to_s
-          @string
-        end
+
       end
     end
   end
