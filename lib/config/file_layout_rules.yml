@@ -31,18 +31,10 @@ transmission:
       a_n: A
       offset: 55
       length: 5
-    filler_1:
-      a_n: A
-      offset: 60
-      length: 119 
     th_for_use_of_ld_user:
       a_n: A
       offset: 179
       length: 20
-    filler_2:
-      a_n: A
-      offset: 199
-      length: 2
   trailer:
     tt_rec_id:
       a_n: N
@@ -58,8 +50,4 @@ transmission:
       a_n: N
       offset: 5
       length: 9
-    filler:
-      a_n: A
-      offset: 14
-      length: 187
   
