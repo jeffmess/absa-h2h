@@ -18,7 +18,7 @@ describe Absa::H2h do
   
   it "should do somethinf" do
     document = Absa::H2h.build(@hash)
-    puts document.inspect
+    # puts document.inspect
   end
   
   it "should raise an exception if a provided field exceeds the allowed length" do
@@ -38,7 +38,7 @@ describe Absa::H2h do
   
   it "should output a string of 200 characters" do
     document = Absa::H2h.build(@hash)
-    puts document.to_s
+    # puts document.to_s
   end
   
 end
