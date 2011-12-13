@@ -10,6 +10,9 @@ module Absa
     def self.build(options = {})
       header = Transmission::Header.new(options[:transmission_header])
       trailer = Transmission::Trailer.new(options[:transmission_trailer])
+      
+      raise "Error: Header and Trailer Status needs to be the same" if header.th_rec_status != trailer.tt_rec_status
+      
       return { header: header, trailer: trailer }
     end
     
