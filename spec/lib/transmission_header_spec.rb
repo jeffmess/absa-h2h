@@ -11,7 +11,8 @@ describe Absa::H2h do
         th_client_code: "12345",
         th_client_name: "Douglas Anderson",
         th_transmission_no: "1234567",
-        th_for_use_of_ld_user: "Special Token Here"
+        th_for_use_of_ld_user: "Special Token Here",
+        th_destination: ""
       }
     }
   end
