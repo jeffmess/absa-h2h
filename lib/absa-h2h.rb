@@ -6,10 +6,11 @@ require 'absa-h2h/transmission'
 
 module Absa
   module H2h
-    
+
     def self.build(options = {})
       header = Transmission::Header.new(options[:transmission_header])
-      trailer = Transmission::Header.new(options[:transmission_header])
+      trailer = Transmission::Trailer.new(options[:transmission_trailer])
+      return { header: header, trailer: trailer }
     end
     
     def self.write_file!(header, trailer, destination)

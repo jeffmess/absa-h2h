@@ -18,14 +18,15 @@ module RecordWriter
     @layout_rules ||= LAYOUT_RULES[self.class.to_s.downcase.split("::")[-1]]
     options.each do |k,v|
       self.instance_variable_set "@#{k}", v
-      @layout_rules[k.to_s]["value"] = v
     end
   end
           
   def to_s
-    @string = " "*200
+    @string = " " * 200
+    @string = "#{@string}"
+    
     @layout_rules.each do |field_name,rule|
-      value = rule["value"]
+      value = self.instance_variable_get "@#{field_name}"
 
       if rule['a_n'] == 'N'
         value = value.rjust(rule['length'], "0")
@@ -35,8 +36,10 @@ module RecordWriter
       
       offset = rule['offset'] - 1
       length = rule['length']
-      @string[offset..length] = value   
+      
+      @string[(offset), length] = value
     end 
+    
     @string
   end
 end
