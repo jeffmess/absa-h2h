@@ -12,10 +12,11 @@ module InputValidation
 end
 
 module RecordWriter
-  LAYOUT_RULES = YAML.load(File.open("./lib/config/file_layout_rules.yml"))["transmission"]
   
   def set_layout_variables(options = {})
-    @layout_rules ||= LAYOUT_RULES[self.class.to_s.downcase.split("::")[-1]]
+    rules = YAML.load(File.open("./lib/config/#{self.class.to_s.downcase.split("::")[-2]}.yml"))
+    
+    @layout_rules ||= rules[self.class.to_s.downcase.split("::")[-1]]
     options.each do |k,v|
       self.instance_variable_set "@#{k}", v
     end
