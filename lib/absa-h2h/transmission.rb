@@ -9,7 +9,6 @@ module Absa
         def initialize(options = {})
           set_layout_variables(options)
           validate! options
-          to_s
         end
   
       end
@@ -19,6 +18,7 @@ module Absa
         include RecordWriter
         
         def initialize(options = {})
+          set_layout_variables(options)
           validate! options
         end
       end

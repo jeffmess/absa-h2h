@@ -13,6 +13,11 @@ describe Absa::H2h do
         th_transmission_no: "1234567",
         th_for_use_of_ld_user: "Special Token Here",
         th_destination: ""
+      },
+      transmission_trailer: {
+        tt_rec_id: "999",
+        tt_rec_status: "T",
+        tt_no_of_recs: "0",
       }
     }
   end
@@ -39,7 +44,7 @@ describe Absa::H2h do
   
   it "should output a string of 200 characters" do
     document = Absa::H2h.build(@hash)
-    # puts document.to_s
+    puts document.to_s
   end
   
 end
