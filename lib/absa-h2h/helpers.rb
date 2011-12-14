@@ -33,6 +33,10 @@ module RecordWriter
     options.each do |k,v|
       self.instance_variable_set "@#{k}", v
     end
+    
+    @layout_rules.each do |k,v|
+      self.instance_variable_set("@#{k}", v['value']) if v.has_key? "value"
+    end
   end
           
   def to_s
