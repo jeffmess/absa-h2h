@@ -10,10 +10,10 @@ module Absa
           def initialize(options = {})
             set_layout_variables(options)
             validate! options
-            puts self.inspect
           end
-  
         end
+      
+        
       
         class Trailer
           include InputValidation
@@ -24,7 +24,6 @@ module Absa
             validate! options
           end
         end
-      
       end
     end
   end

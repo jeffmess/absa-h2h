@@ -7,30 +7,31 @@ describe Absa::H2h::Transmission::Eft::Header do
       transmission: {
         header: {},
         trailer: {},
-        eft: {
-          header: {
-            rec_id: "001",
-            rec_status: "T",
-            bankserv_record_identifier: "04",
-            bankserv_user_code: "9534",
-            bankserv_creation_date: Time.now.strftime("%y%m%d"),
-            bankserv_purge_date: Time.now.strftime("%y%m%d"),
-            first_action_date: Time.now.strftime("%y%m%d"),
-            last_action_date: Time.now.strftime("%y%m%d"),
-            first_sequence_number: "1",
-            user_generation_number: "37",
-            type_of_service: "CORPSSV",
-          },
-          standard: {},
-          contra: {},
-          trailer: {}
-        }
+        sections: [{
+          type: 'eft',
+          content: {
+            header: {
+              rec_id: "001",
+              rec_status: "T",
+              bankserv_record_identifier: "04",
+              bankserv_user_code: "9534",
+              bankserv_creation_date: Time.now.strftime("%y%m%d"),
+              bankserv_purge_date: Time.now.strftime("%y%m%d"),
+              first_action_date: Time.now.strftime("%y%m%d"),
+              last_action_date: Time.now.strftime("%y%m%d"),
+              first_sequence_number: "1",
+              user_generation_number: "37",
+              type_of_service: "CORPSSV",
+            },
+          }
+        }]
       }
     }
+    @eft_header = @hash[:transmission][:sections].first[:content][:header]
   end
   
   it "should be able to build a document header" do
-    header = Absa::H2h::Transmission::Eft::Header.new(@hash[:transmission][:eft][:header])
+    header = Absa::H2h::Transmission::Eft::Header.new(@eft_header)
     today = Time.now.strftime("%y%m%d")
     
     string =" "*200
@@ -40,13 +41,13 @@ describe Absa::H2h::Transmission::Eft::Header do
   end
   
   it "should raise an exception if a provided field exceeds the allowed length" do
-    @hash[:transmission][:eft][:header][:rec_id] = "0000"
-    lambda {document = Absa::H2h::Transmission::Eft::Header.new(@hash[:transmission][:eft][:header])}.should raise_error("rec_id: Input too long")
+    @eft_header[:rec_id] = "0000"
+    lambda {document = Absa::H2h::Transmission::Eft::Header.new(@eft_header)}.should raise_error("rec_id: Input too long")
   end
   
   it "should raise an exception if a provided field is not a specified type" do
-    @hash[:transmission][:eft][:header][:type_of_service] = "SAVINGS"
-    lambda {document = Absa::H2h::Transmission::Eft::Header.new(@hash[:transmission][:eft][:header])}.should raise_error("type_of_service: Invalid data")
+    @eft_header[:type_of_service] = "SAVINGS"
+    lambda {document = Absa::H2h::Transmission::Eft::Header.new(@eft_header)}.should raise_error("type_of_service: Invalid data")
   end
 
   
