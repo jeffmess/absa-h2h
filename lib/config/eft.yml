@@ -1,0 +1,279 @@
+header:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^001|020$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  bankserv_record_identifier:
+    a_n: N
+    offset: 5
+    length: 2
+    regex: ^04$
+  bankserv_user_code:
+    a_n: A
+    offset: 7
+    length: 4
+  bankserv_creation_date:
+    a_n: N
+    offset: 11
+    length: 6
+    regex: ^[0-9]{6}$
+  bankserv_purge_date:
+    a_n: N
+    offset: 17
+    length: 6
+    regex: ^[0-9]{6}$
+  first_action_date:
+    a_n: N
+    offset: 23
+    length: 6
+    regex: ^[0-9]{6}$
+  last_action_date:
+    a_n: N
+    offset: 29
+    length: 6
+    regex: ^[0-9]{6}$
+  first_sequence_number:
+    a_n: N
+    offset: 35
+    length: 6
+  user_generation_number:
+    a_n: N
+    offset: 41
+    length: 4
+  type_of_service:
+    a_n: A
+    offset: 45
+    length: 10
+    regex: ^CORPSSV|SAMEDAY|ONE DAY|TWO DAY|INTERNAL$
+  accepted_report:
+    a_n: A
+    offset: 55
+    length: 1
+  account_type_correct:
+    a_n: A
+    offset: 56
+    length: 1  
+standard_transaction_record:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^001|020$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  bankserv_record_identifier:
+    a_n: N
+    offset: 5
+    length: 2
+    regex: ^10|50$
+  user_branch:
+    a_n: N
+    offset: 7
+    length: 6
+  user_nominated_account: 
+    a_n: N
+    offset: 13
+    length: 11
+  user_code:
+    a_n: A
+    offset: 24
+    length: 4
+  user_sequence_number:
+    a_n: N
+    offset: 28
+    length: 6
+  homing_branch:
+    a_n: N
+    offset: 34
+    length: 6
+  homing_account_number:
+    a_n: N
+    offset: 40
+    length: 11
+  type_of_account:
+    a_n: N
+    offset: 51
+    length: 1
+    regex: ^1|2|3|4|6$
+  amount:
+    a_n: N
+    offset: 52
+    length: 11
+  action_date:
+    a_n: N
+    offset: 63
+    length: 6
+    regex: ^[0-9]{6}$
+  entry_class:
+    a_n: N
+    offset: 69
+    length: 2
+  tax_code:
+    a_n: N
+    offset: 71
+    length: 1
+  user_reference:
+    a_n: A
+    offset: 75
+    length: 30
+  homing_account_name:
+    a_n: A
+    offset: 105
+    length: 30
+  non_standard_homing_account_number:
+    a_n: N
+    offset: 135
+    length: 20
+  homing_institution:
+    a_n: N
+    offset: 171
+    length: 2
+    regex: ^21$
+contra_record:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^001|020$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  bankserv_record_identifier:
+    a_n: N
+    offset: 5
+    length: 2
+    regex: ^12|52$
+  user_branch:
+    a_n: N
+    offset: 7
+    length: 6
+  user_nominated_account: 
+    a_n: N
+    offset: 13
+    length: 11
+  user_code:
+    a_n: A
+    offset: 24
+    length: 4
+  user_sequence_number:
+    a_n: N
+    offset: 28
+    length: 6
+  homing_branch:
+    a_n: N
+    offset: 34
+    length: 6
+  homing_account_number:
+    a_n: N
+    offset: 40
+    length: 11
+  type_of_account:
+    a_n: N
+    offset: 51
+    length: 1
+    regex: ^1$
+  amount:
+    a_n: N
+    offset: 52
+    length: 11
+  action_date:
+    a_n: N
+    offset: 63
+    length: 6
+    regex: ^[0-9]{6}$
+  entry_class:
+    a_n: N
+    offset: 69
+    length: 2
+    regex: ^10$
+  user_reference:
+    a_n: A
+    offset: 75
+    length: 30
+trailer:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^001|020$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  bankserv_record_identifier:
+    a_n: N
+    offset: 5
+    length: 2
+    regex: ^92$
+  bankserv_user_code:
+    a_n: A
+    offset: 7
+    length: 4
+  first_sequence_number: 
+    a_n: N
+    offset: 11
+    length: 6
+  last_sequence_number:
+    a_n: N
+    offset: 17
+    length: 6
+  first_action_date:
+    a_n: N
+    offset: 23
+    length: 6
+    regex: ^[0-9]{6}$
+  last_action_date:
+    a_n: N
+    offset: 29
+    length: 6
+    regex: ^[0-9]{6}$
+  no_debit_records:
+    a_n: N
+    offset: 35
+    length: 6
+  no_credit_records:
+    a_n: N
+    offset: 41
+    length: 6
+  no_contra_records:
+    a_n: N
+    offset: 47
+    length: 6
+  total_debit_value:
+    a_n: N
+    offset: 53
+    length: 12
+  total_credit_value:
+    a_n: N
+    offset: 65  
+    length: 12
+  hash_total_of_home_account_numbers:
+    a_n: N
+    offset: 77
+    length: 12
+  
+
+
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
