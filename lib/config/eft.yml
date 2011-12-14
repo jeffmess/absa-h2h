@@ -201,6 +201,11 @@ contra_record:
     a_n: A
     offset: 75
     length: 30
+  filler:
+    a_n: A
+    offset: 71
+    length: 4
+    value: "0000"
 trailer:
   rec_id:
     a_n: N
