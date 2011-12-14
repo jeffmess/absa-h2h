@@ -72,8 +72,6 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
     string =" "*200
     string[0,104] = "001T5263200504053538939953400000863200504053538939100016028000#{today}100000ALIMITTST1CONTRA 040524 08    "
     
-    puts record.to_s.length
-    puts string.length
     record.to_s.should == string
   end
 
