@@ -40,6 +40,7 @@ module RecordWriter
     
     @layout_rules.each do |field_name,rule|
       value = self.instance_variable_get "@#{field_name}"
+      value = "" if value.nil?
 
       if rule['a_n'] == 'N'
         value = value.rjust(rule['length'], "0")
