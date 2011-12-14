@@ -59,7 +59,7 @@ header:
     a_n: A
     offset: 56
     length: 1  
-standard_transaction_record:
+standard_record:
   rec_id:
     a_n: N
     offset: 1
@@ -259,7 +259,7 @@ trailer:
     a_n: N
     offset: 65  
     length: 12
-  hash_total_of_home_account_numbers:
+  hash_total_of_homing_account_numbers:
     a_n: N
     offset: 77
     length: 12

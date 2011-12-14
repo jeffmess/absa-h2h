@@ -26,7 +26,7 @@ module RecordWriter
   def set_layout_variables(options = {})
     rules = YAML.load(File.open("./lib/config/#{self.class.to_s.split("::")[-2].underscore}.yml"))
     
-    @layout_rules ||= rules[self.class.to_s.downcase.split("::")[-1]]
+    @layout_rules ||= rules[self.class.to_s.split("::")[-1].underscore]
     options.each do |k,v|
       self.instance_variable_set "@#{k}", v
     end
