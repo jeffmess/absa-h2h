@@ -8,8 +8,8 @@ module Absa
   module H2h
 
     def self.build(options = {})
-      header = Transmission::Header.new(options[:transmission_header])
-      trailer = Transmission::Trailer.new(options[:transmission_trailer])
+      header = Transmission::Header.new(options[:transmission][:header])
+      trailer = Transmission::Trailer.new(options[:transmission][:trailer])
       
       raise "Error: Header and Trailer Status needs to be the same" if header.th_rec_status != trailer.tt_rec_status
       

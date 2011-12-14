@@ -1,0 +1,93 @@
+header:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^030$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  ahvh_gen_no:
+    a_n: N
+    offset: 5
+    length: 7
+  ahvh_dept_code:
+    a_n: A
+    offset: 12
+    length: 6
+trailer:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^039$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  ahvt_no_det_recs:
+    a_n: N
+    offset: 5
+    length: 7
+  ahvt_acc_total:
+    a_n: N
+    offset: 12
+    length: 18
+transaction:
+  rec_id:
+    a_n: N
+    offset: 1
+    length: 3
+    regex: ^031$
+  rec_status:
+    a_n: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  ahvd_seq_no:
+    a_n: N
+    offset: 5
+    length: 7    
+  ahvd_acc_no:
+    a_n: N
+    offset: 12
+    length: 18
+  ahvd_idno:
+    a_n: A
+    offset: 30
+    length: 13
+  ahvd_initials:
+    a_n: A
+    offset: 43
+    length: 3
+  ahvd_surname:
+    a_n: A
+    offset: 46
+    length: 60
+  ahvd_ret_cd01:
+    a_n: N
+    offset: 106
+    length: 2
+    regex: ^0$
+  ahvd_ret_cd02:
+    a_n: N
+    offset: 108
+    length: 2
+    regex: ^0$
+  ahvd_ret_cd03:
+    a_n: N
+    offset: 110
+    length: 2
+    regex: ^0$
+  ahvd_ret_cd04:
+    a_n: N
+    offset: 112
+    length: 2
+    regex: ^0$
+  ahvd_user_ref:
+    a_n: A
+    offset: 114
+    length: 30
