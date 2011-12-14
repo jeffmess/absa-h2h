@@ -1,3 +1,13 @@
+class String
+  def underscore
+    self.to_s.gsub(/::/, '/').
+    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+    gsub(/([a-z\d])([A-Z])/,'\1_\2').
+    tr("-", "_").
+    downcase
+  end  
+end
+
 module InputValidation
   
   def validate!(options)
@@ -14,7 +24,7 @@ end
 module RecordWriter
   
   def set_layout_variables(options = {})
-    rules = YAML.load(File.open("./lib/config/#{self.class.to_s.downcase.split("::")[-2]}.yml"))
+    rules = YAML.load(File.open("./lib/config/#{self.class.to_s.split("::")[-2].underscore}.yml"))
     
     @layout_rules ||= rules[self.class.to_s.downcase.split("::")[-1]]
     options.each do |k,v|
