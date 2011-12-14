@@ -3,8 +3,7 @@ require "yaml"
 
 require 'absa-h2h/helpers'
 require 'absa-h2h/transmission'
-require 'absa-h2h/internal_account_holder_verification'
-require 'absa-h2h/external_account_holder_verification'
+require 'absa-h2h/transmission/account_holder_verification'
 
 module Absa
   module H2h
