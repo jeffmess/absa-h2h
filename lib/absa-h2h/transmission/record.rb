@@ -17,7 +17,6 @@ module Absa
           record.build_trailer options[:trailer]
 
           options[:transactions].each do |transaction|
-            puts transaction.inspect
             record.build_transaction(transaction)
           end
 
@@ -34,7 +33,6 @@ module Absa
 
         def build_user_set(options = {})
           class_name = "Absa::H2h::Transmission::#{options[:type].camelize}"
-          puts class_name
           @user_sets.push class_name.constantize.build(options[:content])
         end
       end

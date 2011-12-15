@@ -1,6 +1,6 @@
 module Absa
   module H2h
-    module Transmission      
+    module Transmission
       class Header < Record; end
       class Trailer < Record; end
     end

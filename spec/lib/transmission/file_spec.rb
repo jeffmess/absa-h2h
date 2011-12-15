@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Absa::H2h::File do
+describe Absa::H2h::Transmission::File do
   
   before(:each) do
     @internal_section_content = {
@@ -61,21 +61,21 @@ describe Absa::H2h::File do
 
   it "should raise an exception if a provided field exceeds the allowed length" do
     @hash[:transmission][:header][:th_rec_id] = "0000"
-    lambda {document = Absa::H2h::File.build(@hash)}.should raise_error("th_rec_id: Input too long")
+    lambda {document = Absa::H2h::Transmission::File.build(@hash)}.should raise_error("th_rec_id: Input too long")
   end
 
   it "should raise an exception if a provided field fails to pass a specified field format" do
     @hash[:transmission][:header][:th_rec_id] = "100"
-    lambda {document = Absa::H2h::File.build(@hash)}.should raise_error("th_rec_id: Invalid data")
+    lambda {document = Absa::H2h::Transmission::File.build(@hash)}.should raise_error("th_rec_id: Invalid data")
   end
 
   it "should raise an exception if a alpha character is passed into a numeric-only field" do
     @hash[:transmission][:header][:th_client_code] = "1234A"
-    lambda {document = Absa::H2h::File.build(@hash)}.should raise_error("th_client_code: Numeric value required")
+    lambda {document = Absa::H2h::Transmission::File.build(@hash)}.should raise_error("th_client_code: Numeric value required")
   end
   
   it "should be able to build a complete file" do
-    file = Absa::H2h::File.build(@hash)
+    file = Absa::H2h::Transmission::File.build(@hash)
     
     string = "000T2011121500345Douglas Anderson              1234567                                                                                                                            Special Token Here    \r
 030T0000005000006                                                                                                                                                                                       \r
@@ -84,7 +84,6 @@ describe Absa::H2h::File do
 999T000000007                                                                                                                                                                                           "
     
     file.to_s.should == string
-
   end
 
 end
