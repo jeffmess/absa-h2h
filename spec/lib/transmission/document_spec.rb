@@ -74,8 +74,8 @@ describe Absa::H2h::Transmission::Document do
     lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("th_client_code: Numeric value required")
   end
   
-  it "should be able to build a complete file" do
-    file = Absa::H2h::Transmission::Document.build(@hash)
+  it "should be able to build a complete document" do
+    document = Absa::H2h::Transmission::Document.build(@hash)
     
     string = "000T#{Time.now.strftime("%Y%m%d")}00345DOUGLAS ANDERSON              1234567                                                                                                                            SPECIAL TOKEN HERE    \r
 030T0000005000006                                                                                                                                                                                       \r
@@ -83,7 +83,7 @@ describe Absa::H2h::Transmission::Document do
 039T0000003000000006554885370                                                                                                                                                                           \r
 999T000000007                                                                                                                                                                                           "
     
-    file.to_s.should == string
+    document.to_s.should == string
   end
 
 end
