@@ -110,8 +110,29 @@ describe Absa::H2h::Transmission::Eft::Header do
   end
   
   it "should validate the action date for the transaction records" do
+    @invalid_transaction[:content][:user_sequence_number] = '2'
     @user_set[:transactions] << @invalid_transaction
-    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Must be within the range of first_action_date and last_action_date")
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Must be within the range of the headers first_action_date and last_action_date")
   end
   
+  it "should validate the record status of the header and trailer records" do
+    @user_set[:trailer][:rec_status] = 'L'
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("rec_status: Footer and Header record status must be equal")
+  end
+  
+  it "should validate the record status of the header and transaction records" do
+    @user_set[:transactions].first[:content][:rec_status] = 'L'
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("rec_status: Transaction and Header record status must be equal")
+  end
+  
+  it "should validate the first standard transaction record and header record sequence numbers" do
+    @user_set[:transactions].first[:content][:user_sequence_number] = '2'
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: 1st Standard transactions user sequence number and the headers first sequence number must be equal.")
+  end
+  
+  it "should check for duplicate user sequence numbers in transactions" do
+    @invalid_transaction[:content][:action_date] = Time.now.strftime("%y%m%d")
+    @user_set[:transactions] << @invalid_transaction
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: Duplicate user sequence number. Transactions must have unique sequence numbers!")
+  end
 end
