@@ -7,9 +7,8 @@ module Absa
         class Trailer < Record; end
         class InternalAccountDetail < Record; end
         class ExternalAccountDetail < Record; end
-        
-      end
-      
+
+      end      
     end
   end
 end
