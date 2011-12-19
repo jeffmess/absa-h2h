@@ -1,7 +1,3 @@
-module Absa
-  module H2h
-    module Transmission
-      class Trailer < Record; end
-    end
-  end
+module Absa::H2h::Transmission
+  class Trailer < Record; end
 end

@@ -3,6 +3,7 @@ module InputValidation
   def validate!(options)
     options.each do |k,v|
       rule = @layout_rules[k.to_s]
+      raise "#{k}: Argument is not a string" unless v.is_a? String
       raise "#{k}: Input too long" if v.length > rule['length']
       raise "#{k}: Invalid data" if rule['regex'] && ((v =~ /#{rule['regex']}/) != 0)
       raise "#{k}: Numeric value required" if (rule['a_n'] == 'N') && !(Float(v) rescue false)
@@ -21,6 +22,7 @@ module RecordWriter
     @layout_rules = layout_rules
     
     options.each do |k,v|
+      raise "#{k}: Argument is not a string" unless v.is_a? String
       self.class.send :attr_accessor, k
       self.send "#{k}=", v.upcase
     end

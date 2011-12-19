@@ -58,6 +58,11 @@ describe Absa::H2h::Transmission::Document do
       }
     }
   end
+  
+  it "should raise an exception is any of the provided arguments are not strings" do
+    @hash[:transmission][:trailer][:no_det_recs] = 1
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("no_det_recs: Argument is not a string")
+  end
 
   it "should raise an exception if a provided field exceeds the allowed length" do
     @hash[:transmission][:header][:rec_id] = "0000"
