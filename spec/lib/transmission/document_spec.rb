@@ -13,7 +13,7 @@ describe Absa::H2h::Transmission::Document do
       trailer: {
         rec_id: "039",
         rec_status: "T",
-        no_det_recs: "3",
+        no_det_recs: "1",
         acc_total: "6554885370"
       },
       transactions: [{type: 'internal_account_detail', content: {
@@ -58,6 +58,11 @@ describe Absa::H2h::Transmission::Document do
       }
     }
   end
+  
+  it "should raise an exception is any of the provided arguments are not strings" do
+    @hash[:transmission][:trailer][:no_det_recs] = 1
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("no_det_recs: Argument is not a string")
+  end
 
   it "should raise an exception if a provided field exceeds the allowed length" do
     @hash[:transmission][:header][:rec_id] = "0000"
@@ -69,7 +74,7 @@ describe Absa::H2h::Transmission::Document do
     lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("rec_id: Invalid data")
   end
 
-  it "should raise an exception if a alpha character is passed into a numeric-only field" do
+  it "should raise an exception if an alpha character is passed into a numeric-only field" do
     @hash[:transmission][:header][:th_client_code] = "1234A"
     lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("th_client_code: Numeric value required")
   end
@@ -80,7 +85,7 @@ describe Absa::H2h::Transmission::Document do
     string = "000T#{Time.now.strftime("%Y%m%d")}00345DOUGLAS ANDERSON              1234567                                                                                                                            SPECIAL TOKEN HERE    \r
 030T0000005000006                                                                                                                                                                                       \r
 031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236                                                                    \r
-039T0000003000000006554885370                                                                                                                                                                           \r
+039T0000001000000006554885370                                                                                                                                                                           \r
 999T000000007                                                                                                                                                                                           "
     
     document.to_s.should == string
