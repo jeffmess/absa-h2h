@@ -74,7 +74,7 @@ describe Absa::H2h::Transmission::Document do
     lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("rec_id: Invalid data")
   end
 
-  it "should raise an exception if a alpha character is passed into a numeric-only field" do
+  it "should raise an exception if an alpha character is passed into a numeric-only field" do
     @hash[:transmission][:header][:th_client_code] = "1234A"
     lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("th_client_code: Numeric value required")
   end
