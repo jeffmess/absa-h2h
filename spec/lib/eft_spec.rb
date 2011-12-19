@@ -135,4 +135,10 @@ describe Absa::H2h::Transmission::Eft::Header do
     @user_set[:transactions] << @invalid_transaction
     lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: Duplicate user sequence number. Transactions must have unique sequence numbers!")
   end
+  
+  it "should check that transactions increment sequentially" do
+    @invalid_transaction[:content][:user_sequence_number] = "5"
+    @user_set[:transactions] << @invalid_transaction
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: Transactions must increment sequentially.")
+  end
 end

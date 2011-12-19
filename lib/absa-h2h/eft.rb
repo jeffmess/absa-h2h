@@ -10,7 +10,8 @@ module Absa
             raise "user_sequence_number: 1st Standard transactions user sequence number and the headers first sequence number must be equal." 
           end
           
-          raise "user_sequence_number: Duplicate user sequence number. Transactions must have unique sequence numbers!" unless @transactions.map(&:user_sequence_number).uniq.length == @transactions.length          
+          raise "user_sequence_number: Duplicate user sequence number. Transactions must have unique sequence numbers!" unless @transactions.map(&:user_sequence_number).uniq.length == @transactions.length
+          raise "user_sequence_number: Transactions must increment sequentially." unless @transactions.map(&:user_sequence_number).sort.last.to_i - @transactions.map(&:user_sequence_number).sort.first.to_i == @transactions.length-1
           
           raise "rec_status: Footer and Header record status must be equal" if @header.rec_status != @trailer.rec_status
           
