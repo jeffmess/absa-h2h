@@ -75,9 +75,10 @@ describe Absa::H2h::Transmission::File do
   end
   
   it "should be able to build a complete file" do
+    Date
     file = Absa::H2h::Transmission::File.build(@hash)
     
-    string = "000T2011121500345Douglas Anderson              1234567                                                                                                                            Special Token Here    \r
+    string = "000T#{Time.now.strftime("%Y%m%d")}00345Douglas Anderson              1234567                                                                                                                            Special Token Here    \r
 030T0000005000006                                                                                                                                                                                       \r
 031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236                                                                    \r
 039T0000003000000006554885370                                                                                                                                                                           \r
