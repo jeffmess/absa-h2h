@@ -7,6 +7,10 @@ module Absa
         class Trailer < Record; end
         class InternalAccountDetail < Record; end
         class ExternalAccountDetail < Record; end
+        
+        def validate!
+          
+        end
 
       end      
     end

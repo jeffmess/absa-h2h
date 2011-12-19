@@ -9,7 +9,7 @@ module Absa
         def self.build(content)
           module_name = self.name.split("::")[0..-1].join("::")
           
-          user_set = UserSet.new
+          user_set = self.name.constantize.new
           
           transactions = content[:transactions].map do |transaction|
             class_name = "#{self.name}::#{transaction[:type].camelize}"
