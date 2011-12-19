@@ -80,4 +80,9 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
     lambda {Absa::H2h::Transmission::Eft::StandardRecord.new(@eft_transaction)}.should raise_error("user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
   end
   
+  it "should raise an exception if the homing account name is blank" do
+    @eft_transaction[:homing_account_name] = ""
+    lambda {Absa::H2h::Transmission::Eft::StandardRecord.new(@eft_transaction)}.should raise_error("homing_account_name: Not to be left blank.")
+  end
+  
 end

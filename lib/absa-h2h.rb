@@ -1,4 +1,5 @@
 require "absa-h2h/version"
+require "active_support/core_ext/string"
 require "yaml"
 
 require 'absa-h2h/helpers'
