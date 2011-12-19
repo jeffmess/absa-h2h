@@ -63,6 +63,7 @@ internal_account_detail:
     a_n: A
     offset: 43
     length: 3
+    regex: ^[a-zA-Z]{0,3}$
   surname:
     a_n: A
     offset: 46
