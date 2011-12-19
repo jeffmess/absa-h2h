@@ -14,7 +14,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
       trailer: {
         rec_id: "039",
         rec_status: "T",
-        no_det_recs: "1",
+        no_det_recs: "2",
         acc_total: "6554885370"
       },
       transactions: [{type: 'internal_account_detail', content: {
@@ -24,6 +24,20 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
         acc_no: "1094402524",
         idno: "6703085829086",
         initials: "M",
+        surname: "CHAUKE",
+        return_code_1: "0",
+        return_code_2: "0",
+        return_code_3: "0",
+        return_code_4: "0",
+        user_ref: "1495050000600002236"
+      }},
+      {type: 'internal_account_detail', content: {
+        rec_id: "031",
+        rec_status: "T",
+        seq_no: "2",
+        acc_no: "1094402524",
+        idno: "6703085829086",
+        initials: "S",
         surname: "CHAUKE",
         return_code_1: "0",
         return_code_2: "0",
@@ -105,20 +119,22 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
     header = Absa::H2h::Transmission::AccountHolderVerification::Trailer.new(@internal_section_content[:trailer])
   
     string = " " * 200
-    string[0,29] = "039T0000001000000006554885370"
+    string[0,29] = "039T0000002000000006554885370"
   
     header.to_s.should == string    
   end
   
   it "should be able to build an internal transaction record" do
-    string = " " * 200
-    string[0,143] = "031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236           "
+    string1 = " " * 200
+    string2 = " " * 200
+    string1[0,143] = "031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236           "
+    string2[0,143] = "031T00000020000000010944025246703085829086S  CHAUKE                                                      000000001495050000600002236           "
     
     result = @internal_section_content[:transactions].map do |t|
       Absa::H2h::Transmission::AccountHolderVerification::InternalAccountDetail.new(t[:content]).to_s
     end.join("\r\n")
     
-    result.should == string
+    result.should == (string1 + "\r\n" + string2)
   end
   
   it "should be able to build an external transaction record" do
@@ -136,7 +152,15 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
     lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should_not raise_error(Exception)
     
     @internal_section_content[:trailer][:no_det_recs] = "3"
-    lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should raise_error(Exception, "no_det_recs mismatch: expected 3, got 1")
+    lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should raise_error(Exception, "no_det_recs mismatch: expected 3, got 2")
   end
+  
+  it "should validate that the transaction sequence numbers are a contigious index of numbers" do
+    lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should_not raise_error(Exception)
+    
+    @internal_section_content[:transactions][0][:content][:seq_no] = "2"
+    lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should raise_error(Exception, 'seq_no mismatch: ["2", "2"]')
+  end
+  
       
 end
