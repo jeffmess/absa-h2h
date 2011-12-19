@@ -21,6 +21,10 @@ class String
   def camelize
     self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
   end
+
+  def blank?
+    self !~ %r![^\s#{[0x3000].pack("U")}]!
+  end
 end
 
 module InputValidation

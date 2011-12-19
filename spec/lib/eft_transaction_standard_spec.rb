@@ -74,6 +74,10 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
     
     record.to_s.should == string
   end
-
+  
+  it "should raise an exception if the user reference has blank values for pos 1-10" do
+    @eft_transaction[:user_reference] = "               0404404"
+    lambda {Absa::H2h::Transmission::Eft::StandardRecord.new(@eft_transaction)}.should raise_error("user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
+  end
   
 end
