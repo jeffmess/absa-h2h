@@ -2,6 +2,15 @@ module Absa
   module H2h
     module Transmission
       class Eft < UserSet
+        
+        def validate!
+          @transactions.each do |transaction|
+            unless (@header.first_action_date..@header.last_action_date).cover?(transaction.action_date)
+              raise "action_date: Must be within the range of first_action_date and last_action_date" 
+            end
+          end
+        end
+        
         class Header < Record; end
         class ContraRecord < Record; end
 
@@ -20,3 +29,5 @@ module Absa
     end
   end
 end
+
+# (Time.now..Time.now+4).cover?(Time.now)
