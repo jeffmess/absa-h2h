@@ -13,7 +13,7 @@ describe Absa::H2h::Transmission::Document do
       trailer: {
         rec_id: "039",
         rec_status: "T",
-        no_det_recs: "3",
+        no_det_recs: "1",
         acc_total: "6554885370"
       },
       transactions: [{type: 'internal_account_detail', content: {
@@ -80,7 +80,7 @@ describe Absa::H2h::Transmission::Document do
     string = "000T#{Time.now.strftime("%Y%m%d")}00345DOUGLAS ANDERSON              1234567                                                                                                                            SPECIAL TOKEN HERE    \r
 030T0000005000006                                                                                                                                                                                       \r
 031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236                                                                    \r
-039T0000003000000006554885370                                                                                                                                                                           \r
+039T0000001000000006554885370                                                                                                                                                                           \r
 999T000000007                                                                                                                                                                                           "
     
     document.to_s.should == string

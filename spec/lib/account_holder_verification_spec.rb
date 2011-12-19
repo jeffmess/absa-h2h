@@ -14,7 +14,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
       trailer: {
         rec_id: "039",
         rec_status: "T",
-        no_det_recs: "3",
+        no_det_recs: "1",
         acc_total: "6554885370"
       },
       transactions: [{type: 'internal_account_detail', content: {
@@ -43,7 +43,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
       trailer: {
         rec_id: "039",
         rec_status: "T",
-        no_det_recs: "3",
+        no_det_recs: "1",
         acc_total: "6554885370"
       },
       transactions: [
@@ -105,7 +105,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
     header = Absa::H2h::Transmission::AccountHolderVerification::Trailer.new(@internal_section_content[:trailer])
   
     string = " " * 200
-    string[0,29] = "039T0000003000000006554885370"
+    string[0,29] = "039T0000001000000006554885370"
   
     header.to_s.should == string    
   end
@@ -130,6 +130,13 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
     end.join("\r\n")
     
     result.should == string
+  end
+  
+  it "should validate that the number of transactions matches the specified amount in the trailer" do
+    lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should_not raise_error(Exception)
+    
+    @internal_section_content[:trailer][:no_det_recs] = "3"
+    lambda {Absa::H2h::Transmission::AccountHolderVerification::build(@internal_section_content)}.should raise_error(Exception, "no_det_recs mismatch: expected 3, got 1")
   end
       
 end
