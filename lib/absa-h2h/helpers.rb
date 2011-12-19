@@ -21,7 +21,7 @@ module RecordWriter
     @layout_rules = layout_rules
     
     options.each do |k,v|
-      self.instance_variable_set "@#{k}", v
+      self.instance_variable_set "@#{k}", v.upcase
     end
     
     @layout_rules.each do |k,v|

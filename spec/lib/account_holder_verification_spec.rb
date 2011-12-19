@@ -123,7 +123,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
   
   it "should be able to build an external transaction record" do
     string = " " * 200
-    string[0,174] = "031T00000010000000010944025246703085829086DA Anderson                                                    00000000AND033                        255023000060LD00000000000000000"
+    string[0,174] = "031T00000010000000010944025246703085829086DA ANDERSON                                                    00000000AND033                        255023000060LD00000000000000000"
     
     result = @external_section_content[:transactions].map do |t|
       Absa::H2h::Transmission::AccountHolderVerification::ExternalAccountDetail.new(t[:content]).to_s
