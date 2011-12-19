@@ -1,5 +1,5 @@
 header:
-  th_rec_id:
+  rec_id:
     a_n: N
     offset: 1
     length: 3
@@ -35,7 +35,7 @@ header:
     offset: 179
     length: 20
 trailer:
-  tt_rec_id:
+  rec_id:
     a_n: N
     offset: 1
     length: 3

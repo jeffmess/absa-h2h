@@ -6,7 +6,7 @@ describe Absa::H2h do
     @hash = {
       transmission: {
         trailer: {
-          tt_rec_id: "999",
+          rec_id: "999",
           tt_rec_status: "T",
           tt_no_of_recs: "7",
         }

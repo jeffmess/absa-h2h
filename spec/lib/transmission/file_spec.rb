@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Absa::H2h::Transmission::File do
+describe Absa::H2h::Transmission::Document do
   
   before(:each) do
     @internal_section_content = {
@@ -35,7 +35,7 @@ describe Absa::H2h::Transmission::File do
     @hash = {
       transmission: {
         header: {
-          th_rec_id: "000",
+          rec_id: "000",
           th_rec_status: "T",
           th_date: Time.now.strftime("%Y%m%d"),
           th_client_code: "345",
@@ -45,7 +45,7 @@ describe Absa::H2h::Transmission::File do
           th_destination: ""
         },
         trailer: {
-          tt_rec_id: "999",
+          rec_id: "999",
           tt_rec_status: "T",
           tt_no_of_recs: "7",
         },
@@ -60,23 +60,22 @@ describe Absa::H2h::Transmission::File do
   end
 
   it "should raise an exception if a provided field exceeds the allowed length" do
-    @hash[:transmission][:header][:th_rec_id] = "0000"
-    lambda {document = Absa::H2h::Transmission::File.build(@hash)}.should raise_error("th_rec_id: Input too long")
+    @hash[:transmission][:header][:rec_id] = "0000"
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("rec_id: Input too long")
   end
 
   it "should raise an exception if a provided field fails to pass a specified field format" do
-    @hash[:transmission][:header][:th_rec_id] = "100"
-    lambda {document = Absa::H2h::Transmission::File.build(@hash)}.should raise_error("th_rec_id: Invalid data")
+    @hash[:transmission][:header][:rec_id] = "100"
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("rec_id: Invalid data")
   end
 
   it "should raise an exception if a alpha character is passed into a numeric-only field" do
     @hash[:transmission][:header][:th_client_code] = "1234A"
-    lambda {document = Absa::H2h::Transmission::File.build(@hash)}.should raise_error("th_client_code: Numeric value required")
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash)}.should raise_error("th_client_code: Numeric value required")
   end
   
   it "should be able to build a complete file" do
-    Date
-    file = Absa::H2h::Transmission::File.build(@hash)
+    file = Absa::H2h::Transmission::Document.build(@hash)
     
     string = "000T#{Time.now.strftime("%Y%m%d")}00345Douglas Anderson              1234567                                                                                                                            Special Token Here    \r
 030T0000005000006                                                                                                                                                                                       \r

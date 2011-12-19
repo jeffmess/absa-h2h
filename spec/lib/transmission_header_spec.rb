@@ -6,7 +6,7 @@ describe Absa::H2h do
     @hash = {
       transmission: {
         header: {
-          th_rec_id: "000",
+          rec_id: "000",
           th_rec_status: "T",
           th_date: Time.now.strftime("%Y%m%d"),
           th_client_code: "345",

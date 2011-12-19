@@ -3,6 +3,7 @@ require "active_support/core_ext/string"
 require "yaml"
 
 require 'absa-h2h/helpers'
+require 'absa-h2h/transmission/user_set'
 require 'absa-h2h/transmission/file'
 require 'absa-h2h/transmission/record'
 require 'absa-h2h/transmission'

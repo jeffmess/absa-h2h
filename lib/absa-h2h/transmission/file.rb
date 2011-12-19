@@ -2,7 +2,7 @@ module Absa
   module H2h
     module Transmission
     
-      class File
+      class Document
       
         def initialize(options = {})
           @header = nil
@@ -19,7 +19,7 @@ module Absa
             file.build_user_set(user_set)
           end
         
-          #validate!
+          #file.validate!
         
           file
         end
@@ -38,8 +38,7 @@ module Absa
       
         def build_user_set(options = {})
           class_name = "Absa::H2h::Transmission::#{options[:type].camelize}"
-          hash = class_name.constantize.build(options[:content])
-          @user_sets.push hash
+          @user_sets.push class_name.constantize.build(options[:content])
         end
     
         def self.write_file!(header, trailer, destination)
@@ -53,14 +52,8 @@ module Absa
           lines = []
           lines << @header.to_s
         
-          @user_sets.each do |set| 
-            lines << set[:header].to_s
-          
-            set[:transactions].each do |transaction|
-              lines << transaction.to_s
-            end
-          
-            lines << set[:trailer].to_s
+          @user_sets.each do |set|
+            lines << set.to_s
           end
         
           lines << @trailer.to_s
