@@ -117,7 +117,7 @@ describe Absa::H2h::Transmission::Eft::Header do
   
   it "should validate the record status of the header and trailer records" do
     @user_set[:trailer][:rec_status] = 'L'
-    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("rec_status: Footer and Header record status must be equal")
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("rec_status: Trailer and Header record status must be equal")
   end
   
   it "should validate the record status of the header and transaction records" do
@@ -141,4 +141,25 @@ describe Absa::H2h::Transmission::Eft::Header do
     @user_set[:transactions] << @invalid_transaction
     lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: Transactions must increment sequentially.")
   end
+  
+  it "should validate the bankserv user code in the Trailer and header" do
+    @user_set[:trailer][:bankserv_user_code] = "7890"
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("bankserv_user_code: Trailer and Header user code must be equal.")
+  end
+  
+  it "should validate the first sequence number in the Trailer and header" do
+    @user_set[:trailer][:first_sequence_number] = "3"
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("first_sequence_number: Trailer and Header sequence number must be equal.")
+  end
+  
+  it "should validate the first action date in the Trailer and header" do
+    @user_set[:trailer][:first_action_date] = (Time.now + (2*24*3600)).strftime("%y%m%d")
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("first_action_date: Trailer and Header first action date must be equal.")
+  end
+  
+  it "should validate the last action date in the Trailer and header" do
+    @user_set[:trailer][:last_action_date] = (Time.now + (2*24*3600)).strftime("%y%m%d")
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("last_action_date: Trailer and Header last action date must be equal.")
+  end
+  
 end

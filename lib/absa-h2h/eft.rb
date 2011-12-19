@@ -13,7 +13,11 @@ module Absa
           raise "user_sequence_number: Duplicate user sequence number. Transactions must have unique sequence numbers!" unless @transactions.map(&:user_sequence_number).uniq.length == @transactions.length
           raise "user_sequence_number: Transactions must increment sequentially." unless @transactions.map(&:user_sequence_number).sort.last.to_i - @transactions.map(&:user_sequence_number).sort.first.to_i == @transactions.length-1
           
-          raise "rec_status: Footer and Header record status must be equal" if @header.rec_status != @trailer.rec_status
+          raise "rec_status: Trailer and Header record status must be equal" if @header.rec_status != @trailer.rec_status
+          raise "bankserv_user_code: Trailer and Header user code must be equal." if @header.bankserv_user_code != @trailer.bankserv_user_code
+          raise "first_sequence_number: Trailer and Header sequence number must be equal." if @header.first_sequence_number != @trailer.first_sequence_number
+          raise "first_action_date: Trailer and Header first action date must be equal." if @header.first_action_date != @trailer.first_action_date
+          raise "last_action_date: Trailer and Header last action date must be equal." if @header.last_action_date != @trailer.last_action_date
           
           @transactions.each do |transaction|
             first_action_date = Date.strptime(@header.first_action_date, "%y%m%d")
