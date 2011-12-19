@@ -9,7 +9,11 @@ module Absa
         class ExternalAccountDetail < Record; end
         
         def validate!
+          #puts "validate verification user set"
           
+          #puts @trailer.inspect
+          
+          #raise "no_det_recs: number mismatch" unless @trailer.no_det_recs == @transactions.length
         end
 
       end      

@@ -21,11 +21,13 @@ module RecordWriter
     @layout_rules = layout_rules
     
     options.each do |k,v|
-      self.instance_variable_set "@#{k}", v.upcase
+      self.class.send :attr_accessor, k
+      self.send "#{k}=", v.upcase
     end
     
     @layout_rules.each do |k,v|
-      self.instance_variable_set("@#{k}", v['value']) if v.has_key? "value"
+      self.class.send :attr_accessor, k
+      self.send "#{k}=", v['value'] if v.has_key? "value"
     end
   end
           
@@ -34,8 +36,7 @@ module RecordWriter
     @string = "#{@string}"
     
     @layout_rules.each do |field_name,rule|
-      value = self.instance_variable_get "@#{field_name}"
-      value = "" if value.nil?
+      value = self.send(field_name) || ""
 
       if rule['a_n'] == 'N'
         value = value.rjust(rule['length'], "0")
