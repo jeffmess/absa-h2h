@@ -11,21 +11,20 @@ module Absa
         end
 
         def self.build(options = {})
-          file = self.new
-          file.build_header options[:transmission][:header]
-          file.build_trailer options[:transmission][:trailer]
+          document = self.new
+          document.build_header options[:transmission][:header]
+          document.build_trailer options[:transmission][:trailer]
         
           options[:transmission][:user_sets].each do |user_set|
-            file.build_user_set(user_set)
+            document.build_user_set(user_set)
           end
         
-          #file.validate!
-        
-          file
+          document.validate!
+          document
         end
       
         def validate!
-          raise "Error: Header and Trailer Status needs to be the same" if @header.th_rec_status != @trailer.tt_rec_status
+          #raise "Error: Header and Trailer Status needs to be the same" if @header.th_rec_status != @trailer.tt_rec_status
         end
       
         def build_header(options = {})
