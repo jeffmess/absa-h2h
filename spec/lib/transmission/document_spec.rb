@@ -39,9 +39,9 @@ describe Absa::H2h::Transmission::Document do
           th_rec_status: "T",
           th_date: Time.now.strftime("%Y%m%d"),
           th_client_code: "345",
-          th_client_name: "Douglas Anderson",
+          th_client_name: "DOUGLAS ANDERSON",
           th_transmission_no: "1234567",
-          th_for_use_of_ld_user: "Special Token Here",
+          th_for_use_of_ld_user: "SPECIAL TOKEN HERE",
           th_destination: ""
         },
         trailer: {
@@ -77,7 +77,7 @@ describe Absa::H2h::Transmission::Document do
   it "should be able to build a complete document" do
     document = Absa::H2h::Transmission::Document.build(@hash)
     
-    string = "000T#{Time.now.strftime("%Y%m%d")}00345Douglas Anderson              1234567                                                                                                                            Special Token Here    \r
+    string = "000T#{Time.now.strftime("%Y%m%d")}00345DOUGLAS ANDERSON              1234567                                                                                                                            SPECIAL TOKEN HERE    \r
 030T0000005000006                                                                                                                                                                                       \r
 031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236                                                                    \r
 039T0000003000000006554885370                                                                                                                                                                           \r
