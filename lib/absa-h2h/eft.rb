@@ -37,12 +37,18 @@ module Absa
               raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{calculate_contra_record_total(transaction)}. Got #{transaction.amount}." 
             end
             
-            if transactions_for_contra_record(transaction).map(&:action_date).uniq.length > 1
+            transactions = transactions_for_contra_record(transaction)
+            
+            if transactions.map(&:action_date).uniq.length > 1
               raise "action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got #{transactions_for_contra_record(transaction).map(&:action_date)}." 
             end
             
-            if (transactions_for_contra_record(transaction).map(&:user_nominated_account).uniq.length > 1) or (transactions_for_contra_record(transaction).map(&:user_nominated_account).first != transaction.user_nominated_account)
-              raise "user_nominated_account: Contra records user nominated account must match all preceeding standard transactions user nominated accounts. Got #{transactions_for_contra_record(transaction).map(&:user_nominated_account)}."
+            if (transactions.map(&:user_nominated_account).uniq.length > 1) or (transactions.map(&:user_nominated_account).first != transaction.user_nominated_account)
+              raise "user_nominated_account: Contra records user nominated account must match all preceeding standard transactions user nominated accounts. Got #{transactions.map(&:user_nominated_account)}."
+            end
+            
+            if (transactions.map(&:user_branch).uniq.length > 1) or (transactions.map(&:user_branch).first != transaction.user_branch)
+              raise "user_branch_code: Contra records user branch must match all preceeding standard transactions user branch. Got #{transactions.map(&:user_branch)}."
             end
           end
           

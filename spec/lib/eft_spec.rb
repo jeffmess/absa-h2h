@@ -241,13 +241,18 @@ describe Absa::H2h::Transmission::Eft::Header do
   end
   
   it "should validate the contra records user branch against all its transactions" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    @user_set[:transactions][-2][:content][:user_branch] = "632100"
     
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_branch_code: Contra records user branch must match all preceeding standard transactions user branch. Got [\"632005\", \"632005\", \"632005\", \"632100\"].")
   end
   
   it "should raise an error if the contras homing branch does not match the user branch" do
     @user_set[:transactions].last[:content][:homing_branch] = "632100"
     lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("homing_branch: Should match the user branch. Got 632100. Expected 632005.")
   end
-  
   
 end
