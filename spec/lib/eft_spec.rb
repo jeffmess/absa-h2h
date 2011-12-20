@@ -43,7 +43,25 @@ describe Absa::H2h::Transmission::Eft::Header do
                 user_reference: "ALIMITTST1SPP    040524 01",
                 homing_account_name: "HENNIE DU TOIT   040524",
                 homing_institution: "21"
-              },
+              }
+            },{
+              type: "contra_record",
+              content: {
+                rec_id: "001",
+                rec_status: "T",
+                bankserv_record_identifier: "52",
+                user_branch: "632005",
+                user_nominated_account: "4053538939",
+                user_code: "9534",
+                user_sequence_number: "2",
+                homing_branch: "632005",
+                homing_account_number: "4053538939",
+                type_of_account: "1",
+                amount: "1000",
+                action_date: Time.now.strftime("%y%m%d"),
+                entry_class: "10",
+                user_reference: "ALIMITTST1CONTRA 040524 08"
+              }
             }],
             trailer: {
               rec_id: "001",
@@ -110,7 +128,7 @@ describe Absa::H2h::Transmission::Eft::Header do
   end
   
   it "should validate the action date for the transaction records" do
-    @invalid_transaction[:content][:user_sequence_number] = '2'
+    @invalid_transaction[:content][:user_sequence_number] = '3'
     @user_set[:transactions] << @invalid_transaction
     lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Must be within the range of the headers first_action_date and last_action_date")
   end
@@ -139,7 +157,7 @@ describe Absa::H2h::Transmission::Eft::Header do
   it "should check that transactions increment sequentially" do
     @invalid_transaction[:content][:user_sequence_number] = "5"
     @user_set[:transactions] << @invalid_transaction
-    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: Transactions must increment sequentially.")
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_sequence_number: Transactions must increment sequentially. Got: #{["1", "2", "5"]}")
   end
   
   it "should validate the bankserv user code in the Trailer and header" do
@@ -160,6 +178,14 @@ describe Absa::H2h::Transmission::Eft::Header do
   it "should validate the last action date in the Trailer and header" do
     @user_set[:trailer][:last_action_date] = (Time.now + (2*24*3600)).strftime("%y%m%d")
     lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("last_action_date: Trailer and Header last action date must be equal.")
+  end
+  
+  it "should have a contra record containing the total monetary value of all preceding standard transactions" do
+    eft = Absa::H2h::Transmission::Eft.build(@user_set)
+    
+    eft.transactions.select{|t| t.contra_record? }.each do |transaction|
+      puts eft.calculate_contra_record_total(transaction)
+    end
   end
   
 end

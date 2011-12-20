@@ -11,7 +11,10 @@ module Absa
           end
           
           raise "user_sequence_number: Duplicate user sequence number. Transactions must have unique sequence numbers!" unless @transactions.map(&:user_sequence_number).uniq.length == @transactions.length
-          raise "user_sequence_number: Transactions must increment sequentially." unless @transactions.map(&:user_sequence_number).sort.last.to_i - @transactions.map(&:user_sequence_number).sort.first.to_i == @transactions.length-1
+
+          unless @transactions.map(&:user_sequence_number) == ((@transactions.first.user_sequence_number.to_i)..(@transactions.first.user_sequence_number.to_i + @transactions.length-1)).map(&:to_s).to_a
+            raise "user_sequence_number: Transactions must increment sequentially. Got: #{@transactions.map(&:user_sequence_number)}" 
+          end
           
           raise "rec_status: Trailer and Header record status must be equal" if @header.rec_status != @trailer.rec_status
           raise "bankserv_user_code: Trailer and Header user code must be equal." if @header.bankserv_user_code != @trailer.bankserv_user_code
@@ -27,12 +30,37 @@ module Absa
             raise "action_date: Must be within the range of the headers first_action_date and last_action_date" unless (first_action_date..last_action_date).cover?(action_date)
             raise "rec_status: Transaction and Header record status must be equal" if @header.rec_status != transaction.rec_status
           end
+          
+          @transactions.select{|t| t.contra_record? }.each do |transaction|
+            sum = calculate_contra_record_total(transaction)
+            raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{sum}. Got #{transaction.amount}" unless sum == transaction.amount.to_i
+          end
+          
+        end
+        
+        def calculate_contra_record_total(contra_record)
+          contra_records = @transactions.select {|t| t.contra_record? }.map(&:user_sequence_number)
+          
+          previous_contra_record = contra_records[contra_records.index(contra_record.user_sequence_number)-1].to_i
+          previous_contra_record = previous_contra_record == contra_record.user_sequence_number.to_i ? 0 : previous_contra_record
+          
+          @transactions[previous_contra_record..(contra_record.user_sequence_number.to_i)-2].map(&:amount).map(&:to_i).inject(&:+)
         end
         
         class Header < Record; end
-        class ContraRecord < Record; end
+        class ContraRecord < Record
+        
+          def contra_record?
+            true
+          end
+          
+        end
 
         class StandardRecord < Record
+          
+          def contra_record?
+            false
+          end
           
           def validate!(options={})
             super(options)
