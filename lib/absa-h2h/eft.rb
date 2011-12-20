@@ -32,6 +32,7 @@ module Absa
           end
           
           @transactions.select{|t| t.contra_record? }.each do |transaction|
+            calculate_contra_record_total(transaction)
             sum = calculate_contra_record_total(transaction)
             raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{sum}. Got #{transaction.amount}." unless sum == transaction.amount.to_i
           end
@@ -40,11 +41,18 @@ module Absa
         
         def calculate_contra_record_total(contra_record)
           contra_records = @transactions.select {|t| t.contra_record? }.map(&:user_sequence_number)
+          sequence = @transactions.map(&:user_sequence_number)
+
+          if contra_records.index(contra_record.user_sequence_number) == 0
+            previous_contra_record = contra_record.user_sequence_number
+            start_point = 0
+          else
+            previous_contra_record = contra_records[contra_records.index(contra_record.user_sequence_number)-1]
+            start_point = sequence.index(previous_contra_record) + 1
+          end
           
-          previous_contra_record = contra_records[contra_records.index(contra_record.user_sequence_number)-1].to_i
-          previous_contra_record = previous_contra_record == contra_record.user_sequence_number.to_i ? 0 : previous_contra_record
-          
-          @transactions[previous_contra_record..(contra_record.user_sequence_number.to_i)-2].map(&:amount).map(&:to_i).inject(&:+)
+          end_point = sequence.index(contra_record.user_sequence_number)-1
+          @transactions[start_point..end_point].map(&:amount).map(&:to_i).inject(&:+)
         end
         
         class Header < Record; end

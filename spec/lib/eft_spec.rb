@@ -118,6 +118,31 @@ describe Absa::H2h::Transmission::Eft::Header do
     @transaction =" "*200
     @transaction[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
     @transaction[134, 20] = "0" * 20
+    
+    @additional_transactions = [{type: "standard_record", content: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
+      user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "3",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
+      amount: "12000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      homing_institution: "21"
+    }},
+    {type: "standard_record", content: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
+      user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "4",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
+      amount: "1000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      homing_institution: "21"
+    }},
+    {type: "standard_record", content: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
+      user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "5",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
+      amount: "4000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      homing_institution: "21"
+    }},
+    {type: "standard_record", content: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
+      user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "6",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
+      amount: "3500",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      homing_institution: "21"
+    }},
+    {type: "contra_record",content: {rec_id: "001",rec_status: "T",bankserv_record_identifier: "52",user_branch: "632005",user_nominated_account: "4053538939",
+      user_code: "9534", user_sequence_number: "7",homing_branch: "632005",homing_account_number: "4053538939",type_of_account: "1",amount: "21500",
+      action_date: Time.now.strftime("%y%m%d"),entry_class: "10",user_reference: "ALIMITTST1CONTRA 040524 08"
+    }}]
   end
   
   it "should be able to build an eft user set" do
@@ -183,6 +208,14 @@ describe Absa::H2h::Transmission::Eft::Header do
   it "should have a contra record containing the total monetary value of all preceding standard transactions" do
     @user_set[:transactions].last[:content][:amount] = "2000"
     lambda {eft = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("amount: Contra record amount must be the sum amount of all preceeding transactions. Expected 1000. Got 2000.")
+  end
+  
+  it "should test all contra records monetary value in a given user set" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("amount: Contra record amount must be the sum amount of all preceeding transactions. Expected 20500. Got 21500.")
   end
   
 end
