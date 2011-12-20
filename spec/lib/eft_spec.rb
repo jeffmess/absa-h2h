@@ -230,5 +230,24 @@ describe Absa::H2h::Transmission::Eft::Header do
     lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got [\"111220\", \"111222\", \"111220\", \"111220\"].")
   end
   
+  it "should validate the contra records user nominated account against all its transactions" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    @user_set[:transactions][-2][:content][:user_nominated_account] = "4053538949"
+    
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_nominated_account: Contra records user nominated account must match all preceeding standard transactions user nominated accounts. Got [\"4053538939\", \"4053538939\", \"4053538939\", \"4053538949\"].")
+  end
+  
+  it "should validate the contra records user branch against all its transactions" do
+    
+  end
+  
+  it "should raise an error if the contras homing branch does not match the user branch" do
+    @user_set[:transactions].last[:content][:homing_branch] = "632100"
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("homing_branch: Should match the user branch. Got 632100. Expected 632005.")
+  end
+  
   
 end

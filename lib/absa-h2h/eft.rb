@@ -41,6 +41,9 @@ module Absa
               raise "action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got #{transactions_for_contra_record(transaction).map(&:action_date)}." 
             end
             
+            if (transactions_for_contra_record(transaction).map(&:user_nominated_account).uniq.length > 1) or (transactions_for_contra_record(transaction).map(&:user_nominated_account).first != transaction.user_nominated_account)
+              raise "user_nominated_account: Contra records user nominated account must match all preceeding standard transactions user nominated accounts. Got #{transactions_for_contra_record(transaction).map(&:user_nominated_account)}."
+            end
           end
           
         end
@@ -72,6 +75,13 @@ module Absa
             true
           end
           
+          def validate!(options={})
+            super(options)
+            raise "homing_branch: Should match the user branch. Got #{@homing_branch}. Expected #{@user_branch}." unless @homing_branch == @user_branch
+            # raise "user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_reference[0..11].blank?
+            # raise "homing_account_name: Not to be left blank." if @homing_account_name.blank?
+          end
+          
         end
 
         class StandardRecord < Record
@@ -82,6 +92,7 @@ module Absa
           
           def validate!(options={})
             super(options)
+            
             raise "user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_reference[0..11].blank?
             raise "homing_account_name: Not to be left blank." if @homing_account_name.blank?
           end
