@@ -32,18 +32,28 @@ module Absa
           end
           
           @transactions.select{|t| t.contra_record? }.each do |transaction|
-            calculate_contra_record_total(transaction)
-            sum = calculate_contra_record_total(transaction)
-            raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{sum}. Got #{transaction.amount}." unless sum == transaction.amount.to_i
+            # Loop used to validate contra records against the standard records
+            unless calculate_contra_record_total(transaction) == transaction.amount.to_i
+              raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{calculate_contra_record_total(transaction)}. Got #{transaction.amount}." 
+            end
+            
+            if transactions_for_contra_record(transaction).map(&:action_date).uniq.length > 1
+              raise "action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got #{transactions_for_contra_record(transaction).map(&:action_date)}." 
+            end
+            
           end
           
         end
         
         def calculate_contra_record_total(contra_record)
+          transactions_for_contra_record(contra_record).map(&:amount).map(&:to_i).inject(&:+)
+        end
+        
+        def transactions_for_contra_record(contra_record)
           contra_records = @transactions.select {|t| t.contra_record? }.map(&:user_sequence_number)
           sequence = @transactions.map(&:user_sequence_number)
-
-          if contra_records.index(contra_record.user_sequence_number) == 0
+          
+          if contra_records.index(contra_record.user_sequence_number) == 0 # First contra record in user set
             previous_contra_record = contra_record.user_sequence_number
             start_point = 0
           else
@@ -52,7 +62,7 @@ module Absa
           end
           
           end_point = sequence.index(contra_record.user_sequence_number)-1
-          @transactions[start_point..end_point].map(&:amount).map(&:to_i).inject(&:+)
+          @transactions[start_point..end_point]
         end
         
         class Header < Record; end

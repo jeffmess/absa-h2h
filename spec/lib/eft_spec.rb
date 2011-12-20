@@ -218,4 +218,17 @@ describe Absa::H2h::Transmission::Eft::Header do
     lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("amount: Contra record amount must be the sum amount of all preceeding transactions. Expected 20500. Got 21500.")
   end
   
+  it "should test all contra records action dates in a given user set" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+    @user_set[:header][:last_action_date] = (Time.now + (3*24*3600)).strftime("%y%m%d")
+    @user_set[:trailer][:last_action_date] = (Time.now + (3*24*3600)).strftime("%y%m%d")
+    @user_set[:transactions][3][:content][:action_date] = (Time.now + (2*24*3600)).strftime("%y%m%d")
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got [\"111220\", \"111222\", \"111220\", \"111220\"].")
+  end
+  
+  
 end
