@@ -181,11 +181,8 @@ describe Absa::H2h::Transmission::Eft::Header do
   end
   
   it "should have a contra record containing the total monetary value of all preceding standard transactions" do
-    eft = Absa::H2h::Transmission::Eft.build(@user_set)
-    
-    eft.transactions.select{|t| t.contra_record? }.each do |transaction|
-      puts eft.calculate_contra_record_total(transaction)
-    end
+    @user_set[:transactions].last[:content][:amount] = "2000"
+    lambda {eft = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("amount: Contra record amount must be the sum amount of all preceeding transactions. Expected 1000. Got 2000.")
   end
   
 end

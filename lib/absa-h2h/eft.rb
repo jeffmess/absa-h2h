@@ -33,7 +33,7 @@ module Absa
           
           @transactions.select{|t| t.contra_record? }.each do |transaction|
             sum = calculate_contra_record_total(transaction)
-            raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{sum}. Got #{transaction.amount}" unless sum == transaction.amount.to_i
+            raise "amount: Contra record amount must be the sum amount of all preceeding transactions. Expected #{sum}. Got #{transaction.amount}." unless sum == transaction.amount.to_i
           end
           
         end
