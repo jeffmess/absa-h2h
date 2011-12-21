@@ -20,7 +20,7 @@ describe Absa::H2h do
   end
   
   it "should be able to build a document header" do
-    header = Absa::H2h::Transmission::Header.new(@hash[:transmission][:header])
+    header = Absa::H2h::Transmission::Document::Header.new(@hash[:transmission][:header])
     expected_string = File.open('./spec/examples/transmission_header_file.txt', "rb").read
     header.to_s.should == expected_string
   end
