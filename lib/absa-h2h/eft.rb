@@ -128,7 +128,7 @@ module Absa
         def total_credit_transactions
           # including debit contra records
           dcr = self.debit_contra_records == [] ? 0 : self.debit_contra_records.map(&:amount).map(&:to_i).inject(&:+)
-          self.standard_records.map(&:amount).map(&:to_i).inject(&:+) + dcr
+          (self.credit_records.map(&:amount).map(&:to_i).inject(&:+) || 0) + dcr
         end
         
         def calculate_contra_record_total(contra_record)
