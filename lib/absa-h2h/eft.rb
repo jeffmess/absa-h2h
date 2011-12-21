@@ -65,16 +65,20 @@ module Absa
           debit_records = @transactions.select {|t| t.bankserv_record_identifier.to_i == 50 }
           credit_records = @transactions.select {|t| t.bankserv_record_identifier.to_i == 10 }
           
-          unless @trailer.no_debit_records.to_i == self.debit_records.count
+          unless @trailer.no_debit_records.to_i == self.debit_records.count + self.credit_contra_records.count
             raise "no_debit_records: Trailer records number of debit records must match the number of debit records. Expected #{debit_records.count}. Got #{@trailer.no_debit_records}."
           end
           
-          unless @trailer.no_credit_records.to_i == self.credit_records.count
-            raise "no_credit_records: Trailer records number of credit records must match the number of credit records. Expected #{self.credit_records.count}. Got #{@trailer.no_credit_records}."
+          unless @trailer.no_credit_records.to_i == self.credit_records.count + self.debit_contra_records.count
+            raise "no_credit_records: Trailer records number of credit records must match the number of credit records and contra debit records. Expected #{self.credit_records.count + self.debit_contra_records.count}. Got #{@trailer.no_credit_records}."
           end
           
           unless @trailer.no_contra_records.to_i == self.contra_records.count
             raise "no_contra_records: Trailer records number of contra records must match the number of contra records. Expected #{self.contra_records.count}. Got #{@trailer.no_contra_records}."
+          end
+          
+          unless @trailer.total_debit_value.to_i == self.total_debit_transactions
+            raise "total_debit_value: Trailer records total debit value must equal the sum amount of all transactions and credit contra records. Expected #{self.total_debit_transactions}. Got #{@trailer.total_debit_value.to_i}."
           end
         end
         
@@ -101,6 +105,20 @@ module Absa
         def credit_records
           # Standard records only
           @transactions.select {|t| t.bankserv_record_identifier.to_i == 10 }
+        end
+        
+        def debit_contra_records
+          @transactions.select {|t| t.contra_record? && t.bankserv_record_identifier.to_i == 52}
+        end
+        
+        def credit_contra_records
+          @transactions.select {|t| t.contra_record? && t.bankserv_record_identifier.to_i == 12}
+        end
+        
+        def total_debit_transactions
+          # including credit contra records
+          ccr = self.credit_contra_records == [] ? 0 : self.credit_contra_records.map(&:amount).map(&:to_i).inject(&:+)
+          self.standard_records.map(&:amount).map(&:to_i).inject(&:+) + ccr
         end
         
         def calculate_contra_record_total(contra_record)
