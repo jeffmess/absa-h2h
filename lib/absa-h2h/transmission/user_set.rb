@@ -3,9 +3,7 @@ module Absa::H2h::Transmission
     
     attr_accessor :header, :trailer, :transactions
     
-    def self.build(content)
-      module_name = self.name.split("::")[0..-1].join("::")
-      
+    def self.build(content)      
       user_set = self.name.constantize.new
       
       transactions = content[:transactions].map do |transaction|
@@ -13,8 +11,8 @@ module Absa::H2h::Transmission
         class_name.constantize.new(transaction[:content])
       end
       
-      user_set.header = "#{module_name}::Header".constantize.new(content[:header])
-      user_set.trailer = "#{module_name}::Trailer".constantize.new(content[:trailer])
+      user_set.header = "#{self.module_name}::Header".constantize.new(content[:header])
+      user_set.trailer = "#{self.module_name}::Trailer".constantize.new(content[:trailer])
       user_set.transactions = transactions
                 
       user_set.validate!
@@ -46,6 +44,46 @@ module Absa::H2h::Transmission
         return Absa::H2h::Transmission::AccountHolderVerification
       end
       
+    end
+    
+    def self.hash_from_s(string)
+      user_set_info = {type: self.partial_class_name.underscore, content: {header: {}, trailer: {}, transactions: []}}
+      
+      records = string.split(/^/)
+      
+      records.each do |record|
+        record = record[0, 198]
+        
+        self.record_types.each do |record_type|
+          klass = "#{self.name}::#{record_type.camelize}".constantize
+          
+          if klass.matches_definition?(record)
+            options = klass.string_to_hash(record)
+            
+            if record_type == 'Header'
+              user_set_info[:content][:header] = options
+            elsif record_type == 'Trailer'
+              user_set_info[:content][:trailer] = options
+            else
+              user_set_info[:content][:transactions].push({type: record_type, content: options})
+            end
+          end              
+        end            
+      end
+      
+      user_set_info
+    end
+    
+    def self.record_types
+      ['Header','Trailer','InternalAccountDetail','ExternalAccountDetail']
+    end
+    
+    def self.module_name
+      self.name.split("::")[0..-1].join("::")
+    end
+    
+    def self.partial_class_name
+      self.name.split("::")[-1]
     end
     
   end
