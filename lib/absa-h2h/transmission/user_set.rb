@@ -60,9 +60,9 @@ module Absa::H2h::Transmission
           if klass.matches_definition?(record)
             options = klass.string_to_hash(record)
             
-            if record_type == 'Header'
+            if record_type == 'header'
               user_set_info[:content][:header] = options
-            elsif record_type == 'Trailer'
+            elsif record_type == 'trailer'
               user_set_info[:content][:trailer] = options
             else
               user_set_info[:content][:transactions].push({type: record_type, content: options})
@@ -75,7 +75,7 @@ module Absa::H2h::Transmission
     end
     
     def self.record_types
-      ['Header','Trailer','InternalAccountDetail','ExternalAccountDetail']
+      self.layout_rules.map {|k,v| k}
     end
     
     def self.module_name
@@ -85,6 +85,13 @@ module Absa::H2h::Transmission
     def self.partial_class_name
       self.name.split("::")[-1]
     end
+    
+    def self.layout_rules
+      file_name = "./lib/config/#{self.partial_class_name.underscore}.yml"
+      
+      YAML.load(File.open(file_name))
+    end
+    
     
   end
 end
