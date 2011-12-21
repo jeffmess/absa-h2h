@@ -9,17 +9,13 @@ module Absa::H2h::Transmission
       validate! options
     end
     
-    def self.matches_definition?(string)
-      puts string
-      
+    def self.matches_definition?(string)      
       self.class_layout_rules.each do |field, rule|
-        puts rule.inspect
         value = self.retrieve_field_value(string, field, rule)
         regex = rule['regex']
         return false if regex and not value =~ /#{regex}/
       end
       
-      puts "matched! #{self.name}"
       true
     end
     

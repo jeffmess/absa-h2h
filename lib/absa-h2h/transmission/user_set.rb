@@ -71,8 +71,6 @@ module Absa::H2h::Transmission
         end            
       end
       
-      puts user_set_info.to_yaml
-      
       user_set_info
     end
     
