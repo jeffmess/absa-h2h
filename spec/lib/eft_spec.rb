@@ -69,7 +69,7 @@ describe Absa::H2h::Transmission::Eft::Header do
               bankserv_record_identifier: "92",
               bankserv_user_code: "9534",
               first_sequence_number: "1",
-              last_sequence_number: "16",
+              last_sequence_number: "2",
               first_action_date: Time.now.strftime("%y%m%d"),
               last_action_date: Time.now.strftime("%y%m%d"),
               no_debit_records: "14",
@@ -113,7 +113,7 @@ describe Absa::H2h::Transmission::Eft::Header do
     @header[0,51] = "001T049534#{today}#{today}#{today}#{today}0000010037CORPSSV"
     
     @trailer =" "*200
-    @trailer[0,88] = "001T929534000001000016#{today}#{today}000014000002000002000020308000000020308000036311034141"
+    @trailer[0,88] = "001T929534000001000002#{today}#{today}000014000002000002000020308000000020308000036311034141"
     
     @transaction =" "*200
     @transaction[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
@@ -274,6 +274,11 @@ describe Absa::H2h::Transmission::Eft::Header do
   it "should raise an error if the contras user reference position 11-16 does not match CONTRA" do
     @user_set[:transactions].last[:content][:user_reference] = "ALIMITTST1CON RA 040524 08"
     lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_reference: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got CON RA")
+  end
+  
+  it "should raise an error if the trailer records last sequence number does not match the preceeding contra records sequence number" do
+    @user_set[:trailer][:last_sequence_number] = "16"
+    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("last_sequence_number: Trailer records last sequence number must match the last contra records sequence number. Got 16. Expected 2")    
   end
   
 end

@@ -3,9 +3,7 @@ module Absa
     module Transmission
       class Eft < UserSet
         
-        def validate!
-          # TODO. Only first standard transaction usn should == the headers first sequence number.
-          # Not just the first transaction.
+        def validate_standard_transactions!
           if @transactions.first.user_sequence_number != @header.first_sequence_number
             raise "user_sequence_number: 1st Standard transactions user sequence number and the headers first sequence number must be equal." 
           end
@@ -16,12 +14,6 @@ module Absa
             raise "user_sequence_number: Transactions must increment sequentially. Got: #{@transactions.map(&:user_sequence_number)}" 
           end
           
-          raise "rec_status: Trailer and Header record status must be equal" if @header.rec_status != @trailer.rec_status
-          raise "bankserv_user_code: Trailer and Header user code must be equal." if @header.bankserv_user_code != @trailer.bankserv_user_code
-          raise "first_sequence_number: Trailer and Header sequence number must be equal." if @header.first_sequence_number != @trailer.first_sequence_number
-          raise "first_action_date: Trailer and Header first action date must be equal." if @header.first_action_date != @trailer.first_action_date
-          raise "last_action_date: Trailer and Header last action date must be equal." if @header.last_action_date != @trailer.last_action_date
-          
           @transactions.each do |transaction|
             first_action_date = Date.strptime(@header.first_action_date, "%y%m%d")
             last_action_date = Date.strptime(@header.last_action_date, "%y%m%d")
@@ -30,7 +22,17 @@ module Absa
             raise "action_date: Must be within the range of the headers first_action_date and last_action_date" unless (first_action_date..last_action_date).cover?(action_date)
             raise "rec_status: Transaction and Header record status must be equal" if @header.rec_status != transaction.rec_status
           end
-          
+        end
+        
+        def validate_header_trailer!
+          raise "rec_status: Trailer and Header record status must be equal" if @header.rec_status != @trailer.rec_status
+          raise "bankserv_user_code: Trailer and Header user code must be equal." if @header.bankserv_user_code != @trailer.bankserv_user_code
+          raise "first_sequence_number: Trailer and Header sequence number must be equal." if @header.first_sequence_number != @trailer.first_sequence_number
+          raise "first_action_date: Trailer and Header first action date must be equal." if @header.first_action_date != @trailer.first_action_date
+          raise "last_action_date: Trailer and Header last action date must be equal." if @header.last_action_date != @trailer.last_action_date
+        end
+        
+        def validate_contra_records!
           @transactions.select{|t| t.contra_record? }.each do |transaction|
             # Loop used to validate contra records against the standard records
             unless calculate_contra_record_total(transaction) == transaction.amount.to_i
@@ -53,7 +55,19 @@ module Absa
             
             raise "user_code: Contra records user code must match the headers users code. Got #{transaction.user_code}. Expected #{@header.bankserv_user_code}." unless transaction.user_code == @header.bankserv_user_code
           end
-          
+        end
+        
+        def validate_trailer_transactions!
+          unless @trailer.last_sequence_number == @transactions.last.user_sequence_number
+            raise "last_sequence_number: Trailer records last sequence number must match the last contra records sequence number. Got #{@trailer.last_sequence_number}. Expected #{@transactions.last.user_sequence_number}"
+          end
+        end
+        
+        def validate!
+          validate_standard_transactions!
+          validate_header_trailer!
+          validate_contra_records!
+          validate_trailer_transactions!          
         end
         
         def calculate_contra_record_total(contra_record)
