@@ -76,6 +76,10 @@ module Absa
           unless @trailer.no_contra_records.to_i == self.contra_records.count
             raise "no_contra_records: Trailer records number of contra records must match the number of contra records. Expected #{self.contra_records.count}. Got #{@trailer.no_contra_records}."
           end
+          
+          unless @trailer.total_debit_value.to_i == self.total_debit_transactions
+            raise "total_debit_value: Trailer records total debit value must equal the sum amount of all transactions and credit contra records. Expected #{self.total_debit_transactions}. Got #{@trailer.total_debit_value.to_i}."
+          end
         end
         
         def validate!
@@ -101,6 +105,19 @@ module Absa
         def credit_records
           # Standard records only
           @transactions.select {|t| t.bankserv_record_identifier.to_i == 10 }
+        end
+        
+        def credit_contra_records
+          unless self.contra_records.select {|cr| cr.bankserv_record_identifier.to_i == 12} == []
+            return self.contra_records.select {|cr| cr.bankserv_record_identifier.to_i == 12}.map(&:amount).map(&:to_i).inject(&:+)
+          end
+          return []
+        end
+        
+        def total_debit_transactions
+          # including credit contra records
+          ccr = self.credit_contra_records == [] ? 0 : self.credit_contra_records.map(&:amount).map(&:to_i).inject(&:+)
+          self.standard_records.map(&:amount).map(&:to_i).inject(&:+) + ccr
         end
         
         def calculate_contra_record_total(contra_record)
