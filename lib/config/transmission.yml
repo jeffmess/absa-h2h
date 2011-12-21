@@ -27,9 +27,10 @@ header:
     offset: 48
     length: 7
   th_destination:
-    a_n: A
+    a_n: N
     offset: 55
     length: 5
+    regex: ^0$
   th_for_use_of_ld_user:
     a_n: A
     offset: 179

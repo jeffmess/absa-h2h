@@ -91,13 +91,13 @@ describe Absa::H2h::Transmission::Eft::Header do
     
     @user_set = @hash[:transmission][:user_sets].first[:content]
     today = Time.now.strftime("%y%m%d")
-    @header =" "*200
+    @header = " " * 198 + "\r\n"
     @header[0,51] = "001T049534#{today}#{today}#{today}#{today}0000010037CORPSSV"
     
-    @trailer =" "*200
+    @trailer = " " * 198 + "\r\n"
     @trailer[0,88] = "001T929534000001000016#{today}#{today}000014000002000002000020308000000020308000036311034141"
     
-    @transaction =" "*200
+    @transaction = " " * 198 + "\r\n"
     @transaction[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
     @transaction[134, 20] = "0" * 20
   end

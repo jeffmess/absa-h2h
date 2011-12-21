@@ -58,7 +58,7 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
   it "should be able to build an eft transaction record" do
     record = Absa::H2h::Transmission::Eft::StandardRecord.new(@eft_transaction)
     today = Time.now.strftime("%y%m%d")
-    string =" "*200
+    string = " " * 198 + "\r\n"
     string[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
     string[134, 20] = "0" * 20
     
@@ -69,7 +69,7 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
     record = Absa::H2h::Transmission::Eft::ContraRecord.new(@contra_transaction)
     
     today = Time.now.strftime("%y%m%d")
-    string =" "*200
+    string = " " * 198 + "\r\n"
     string[0,104] = "001T5263200504053538939953400000863200504053538939100016028000#{today}100000ALIMITTST1CONTRA 040524 08    "
     
     record.to_s.should == string

@@ -34,7 +34,7 @@ describe Absa::H2h::Transmission::Eft::Header do
     header = Absa::H2h::Transmission::Eft::Header.new(@eft_header)
     today = Time.now.strftime("%y%m%d")
     
-    string =" "*200
+    string = " " * 198 + "\r\n"
     string[0,51] = "001T049534#{today}#{today}#{today}#{today}0000010037CORPSSV"
     
     header.to_s.should == string

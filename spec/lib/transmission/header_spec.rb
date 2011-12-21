@@ -12,8 +12,8 @@ describe Absa::H2h do
           th_client_code: "345",
           th_client_name: "DOUGLAS ANDERSON",
           th_transmission_no: "1234567",
-          th_for_use_of_ld_user: "Special Token Here",
-          th_destination: ""
+          th_destination: "0",
+          th_for_use_of_ld_user: "Special Token Here"
         }
       }
     }
@@ -21,12 +21,8 @@ describe Absa::H2h do
   
   it "should be able to build a document header" do
     header = Absa::H2h::Transmission::Header.new(@hash[:transmission][:header])
-
-    string = " " * 200
-    string[0,55] = "000T#{Time.now.strftime("%Y%m%d")}00345DOUGLAS ANDERSON              1234567"
-    string[178,22] = "SPECIAL TOKEN HERE    "
-
-    header.to_s.should == string
+    expected_string = File.open('./spec/examples/transmission_header_file.txt', "rb").read
+    header.to_s.should == expected_string
   end
       
 end

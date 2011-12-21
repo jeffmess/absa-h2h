@@ -34,7 +34,18 @@ module Absa::H2h::Transmission
       end
                 
       lines << @trailer.to_s
-      lines.join("\r\n")
+      lines.join
+    end
+    
+    def self.for_record_id(record_id)
+      case record_id
+      when '000','999'
+        'something'
+        #return Absa::H2h::Transmission::AccountHolderVerification
+      when '030','031','039'
+        return Absa::H2h::Transmission::AccountHolderVerification
+      end
+      
     end
     
   end
