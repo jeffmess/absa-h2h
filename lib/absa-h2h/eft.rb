@@ -61,6 +61,21 @@ module Absa
           unless @trailer.last_sequence_number == @transactions.last.user_sequence_number
             raise "last_sequence_number: Trailer records last sequence number must match the last contra records sequence number. Got #{@trailer.last_sequence_number}. Expected #{@transactions.last.user_sequence_number}"
           end
+          
+          debit_records = @transactions.select {|t| t.bankserv_record_identifier.to_i == 50 }
+          credit_records = @transactions.select {|t| t.bankserv_record_identifier.to_i == 10 }
+          
+          unless @trailer.no_debit_records.to_i == self.debit_records.count
+            raise "no_debit_records: Trailer records number of debit records must match the number of debit records. Expected #{debit_records.count}. Got #{@trailer.no_debit_records}."
+          end
+          
+          unless @trailer.no_credit_records.to_i == self.credit_records.count
+            raise "no_credit_records: Trailer records number of credit records must match the number of credit records. Expected #{self.credit_records.count}. Got #{@trailer.no_credit_records}."
+          end
+          
+          unless @trailer.no_contra_records.to_i == self.contra_records.count
+            raise "no_contra_records: Trailer records number of contra records must match the number of contra records. Expected #{self.contra_records.count}. Got #{@trailer.no_contra_records}."
+          end
         end
         
         def validate!
@@ -70,12 +85,30 @@ module Absa
           validate_trailer_transactions!          
         end
         
+        def contra_records
+          @transactions.select {|t| t.contra_record? }
+        end
+        
+        def standard_records
+          @transactions.select {|t| !t.contra_record? }
+        end
+        
+        def debit_records
+          # Standard records only
+          @transactions.select {|t| t.bankserv_record_identifier.to_i == 50 }
+        end
+        
+        def credit_records
+          # Standard records only
+          @transactions.select {|t| t.bankserv_record_identifier.to_i == 10 }
+        end
+        
         def calculate_contra_record_total(contra_record)
           transactions_for_contra_record(contra_record).map(&:amount).map(&:to_i).inject(&:+)
         end
         
         def transactions_for_contra_record(contra_record)
-          contra_records = @transactions.select {|t| t.contra_record? }.map(&:user_sequence_number)
+          contra_records = self.contra_records.map(&:user_sequence_number)
           sequence = @transactions.map(&:user_sequence_number)
           
           if contra_records.index(contra_record.user_sequence_number) == 0 # First contra record in user set

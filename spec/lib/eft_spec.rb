@@ -72,9 +72,9 @@ describe Absa::H2h::Transmission::Eft::Header do
               last_sequence_number: "2",
               first_action_date: Time.now.strftime("%y%m%d"),
               last_action_date: Time.now.strftime("%y%m%d"),
-              no_debit_records: "14",
-              no_credit_records: "2",
-              no_contra_records: "2",
+              no_debit_records: "1",
+              no_credit_records: "0",
+              no_contra_records: "1",
               total_debit_value: "20308000",
               total_credit_value: "20308000",
               hash_total_of_homing_account_numbers: "36311034141",
@@ -113,7 +113,7 @@ describe Absa::H2h::Transmission::Eft::Header do
     @header[0,51] = "001T049534#{today}#{today}#{today}#{today}0000010037CORPSSV"
     
     @trailer =" "*200
-    @trailer[0,88] = "001T929534000001000002#{today}#{today}000014000002000002000020308000000020308000036311034141"
+    @trailer[0,88] = "001T929534000001000002#{today}#{today}000001000000000001000020308000000020308000036311034141"
     
     @transaction =" "*200
     @transaction[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
@@ -281,4 +281,40 @@ describe Absa::H2h::Transmission::Eft::Header do
     lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("last_sequence_number: Trailer records last sequence number must match the last contra records sequence number. Got 16. Expected 2")    
   end
   
+  it "should validate the contra records user nominated account against all its transactions" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    @user_set[:trailer][:last_sequence_number] = "7"
+    
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("no_debit_records: Trailer records number of debit records must match the number of debit records. Expected 5. Got 1.")
+  end
+  
+  it "should validate the number of debit transactions in a user set" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    @user_set[:trailer][:last_sequence_number] = "7"
+    
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("no_debit_records: Trailer records number of debit records must match the number of debit records. Expected 5. Got 1.")
+  end
+  
+  it "should validate the number of credit transactions in a user set" do
+    @additional_transactions.each do |t|
+      @user_set[:transactions] << t
+    end
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    @user_set[:trailer][:last_sequence_number] = "7"
+    @user_set[:trailer][:no_debit_records] = "4"
+    @user_set[:transactions][5][:content][:bankserv_record_identifier] = "10"
+    
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("no_credit_records: Trailer records number of credit records must match the number of credit records. Expected 1. Got 0.")
+  end
+  
+  it "should validate the number of contra transactions in a user set" do
+    @user_set[:trailer][:no_contra_records] = "2"
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("no_contra_records: Trailer records number of contra records must match the number of contra records. Expected 1. Got 2.")
+  end
 end
