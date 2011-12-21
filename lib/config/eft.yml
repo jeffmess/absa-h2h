@@ -13,7 +13,7 @@ header:
     a_n: N
     offset: 5
     length: 2
-    regex: ^04$
+    regex: ^4$
   bankserv_user_code:
     a_n: A
     offset: 7

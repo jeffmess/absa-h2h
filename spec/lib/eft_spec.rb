@@ -13,7 +13,7 @@ describe Absa::H2h::Transmission::Eft::Header do
             header: {
               rec_id: "001",
               rec_status: "T",
-              bankserv_record_identifier: "04",
+              bankserv_record_identifier: "4",
               bankserv_user_code: "9534",
               bankserv_creation_date: Time.now.strftime("%y%m%d"),
               bankserv_purge_date: Time.now.strftime("%y%m%d"),

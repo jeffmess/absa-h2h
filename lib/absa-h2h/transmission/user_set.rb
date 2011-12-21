@@ -35,15 +35,15 @@ module Absa::H2h::Transmission
       lines.join
     end
     
-    def self.for_record_id(record_id)
+    def self.for_record_id(record_id) # move this logic to yml file
       case record_id
       when '000','999'
         'something'
-        #return Absa::H2h::Transmission::AccountHolderVerification
       when '030','031','039'
         return Absa::H2h::Transmission::AccountHolderVerification
+      when '001'
+        return Absa::H2h::Transmission::Eft
       end
-      
     end
     
     def self.hash_from_s(string)
@@ -70,6 +70,8 @@ module Absa::H2h::Transmission
           end              
         end            
       end
+      
+      puts user_set_info.to_yaml
       
       user_set_info
     end
