@@ -53,9 +53,9 @@ module RecordWriter
     
     def class_layout_rules
       file_name = "./lib/config/#{self.name.split("::")[-2].underscore}.yml"
-      record_name = self.name.split("::")[-1].underscore
+      record_type = self.name.split("::")[-1].underscore
       
-      YAML.load(File.open("./lib/config/#{self.name.split("::")[-2].underscore}.yml"))[self.name.split("::")[-1].underscore]
+      YAML.load(File.open(file_name))[record_type]
     end
       
     def define_attribute_accessors
