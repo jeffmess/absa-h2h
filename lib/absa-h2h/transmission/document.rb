@@ -4,6 +4,9 @@ module Absa
     
       class Document
         
+        class Header < Record; end
+        class Trailer < Record; end
+        
         attr_accessor :header, :trailer, :user_sets
       
         def initialize(options = {})
@@ -30,11 +33,11 @@ module Absa
         end
       
         def build_header(options = {})
-          @header = Transmission::Header.new(options)
+          @header = Header.new(options)
         end
       
         def build_trailer(options = {})
-          @trailer = Transmission::Trailer.new(options)
+          @trailer = Trailer.new(options)
         end
       
         def build_user_set(options = {})
@@ -93,13 +96,11 @@ module Absa
         end
         
         def to_file!(filename)
-          File.open(destination, 'w') do |file|
-            file.write(self.to_s)
-          end
+          File.open(destination, 'w') {|file| file.write(self.to_s) }
         end
         
         def from_file!(filename)
-          string = File.open(filename, "rb").read
+          self.from_s(File.open(filename, "rb").read)
         end
     
       end
