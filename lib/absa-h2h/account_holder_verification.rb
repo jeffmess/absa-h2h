@@ -15,8 +15,7 @@ module Absa
 
           unless @transactions.map {|t| t.seq_no} == (1..(@transactions.length)).map(&:to_s).to_a
             raise "seq_no mismatch: #{@transactions.map {|t| t.seq_no}}"
-          end
-             
+          end             
         end
 
       end      

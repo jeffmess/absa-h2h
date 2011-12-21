@@ -34,7 +34,7 @@ describe Absa::H2h::Transmission::Eft::Trailer do
     trailer = Absa::H2h::Transmission::Eft::Trailer.new(@eft_trailer)
     today = Time.now.strftime("%y%m%d")
     
-    string =" "*200
+    string = " " * 198 + "\r\n"
     string[0,88] = "001T929534000001000016#{today}#{today}000014000002000002000020308000000020308000036311034141"
     
     trailer.to_s.should == string

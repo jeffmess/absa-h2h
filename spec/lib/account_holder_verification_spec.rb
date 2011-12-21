@@ -109,7 +109,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
   it "should be able to build a header" do
     header = Absa::H2h::Transmission::AccountHolderVerification::Header.new(@internal_section_content[:header])
   
-    string = " " * 200
+    string = " " * 198 + "\r\n"
     string[0,17] = "030T0000005000006"
   
     header.to_s.should == string
@@ -118,32 +118,32 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
   it "should be able to build a trailer" do
     header = Absa::H2h::Transmission::AccountHolderVerification::Trailer.new(@internal_section_content[:trailer])
   
-    string = " " * 200
+    string = " " * 198 + "\r\n"
     string[0,29] = "039T0000002000000006554885370"
   
     header.to_s.should == string    
   end
   
   it "should be able to build an internal transaction record" do
-    string1 = " " * 200
-    string2 = " " * 200
+    string1 = " " * 198 + "\r\n"
+    string2 = " " * 198 + "\r\n"
     string1[0,143] = "031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236           "
     string2[0,143] = "031T00000020000000010944025246703085829086S  CHAUKE                                                      000000001495050000600002236           "
     
     result = @internal_section_content[:transactions].map do |t|
       Absa::H2h::Transmission::AccountHolderVerification::InternalAccountDetail.new(t[:content]).to_s
-    end.join("\r\n")
+    end.join
     
-    result.should == (string1 + "\r\n" + string2)
+    result.should == (string1 + string2)
   end
   
   it "should be able to build an external transaction record" do
-    string = " " * 200
+    string = " " * 198 + "\r\n"
     string[0,174] = "031T00000010000000010944025246703085829086DA ANDERSON                                                    00000000AND033                        255023000060LD00000000000000000"
     
     result = @external_section_content[:transactions].map do |t|
       Absa::H2h::Transmission::AccountHolderVerification::ExternalAccountDetail.new(t[:content]).to_s
-    end.join("\r\n")
+    end.join
     
     result.should == string
   end

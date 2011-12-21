@@ -1,0 +1,6 @@
+user_sets:
+  account_holder_verification:
+    header: 030
+    internal_account_detail: 031
+    external_account_detail: 031
+    trailer: 039

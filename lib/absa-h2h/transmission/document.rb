@@ -3,6 +3,8 @@ module Absa
     module Transmission
     
       class Document
+        
+        attr_accessor :header, :trailer, :user_sets
       
         def initialize(options = {})
           @header = nil
@@ -39,24 +41,65 @@ module Absa
           class_name = "Absa::H2h::Transmission::#{options[:type].camelize}"
           @user_sets.push class_name.constantize.build(options[:content])
         end
-    
-        def self.write_file!(header, trailer, destination)
-          File.open(destination, 'w') do |f| 
-            f.write(header)
-            f.write(trailer) 
-          end
-        end
       
         def to_s
           lines = []
           lines << @header.to_s
         
-          @user_sets.each do |set|
-            lines << set.to_s
-          end
+          @user_sets.each {|set| lines << set.to_s}
         
           lines << @trailer.to_s
-          lines.join("\r\n")
+          lines.join
+        end
+        
+        def self.hash_from_s(string)
+          document_info = {transmission: {header: {}, trailer: {}, user_sets: []}}
+          lines = string.split(/^/)
+          
+          # pull first and last line off and handle separately to user sets
+          
+          document_info[:transmission][:header] = Header.string_to_hash(lines.shift)
+          document_info[:transmission][:trailer] = Trailer.string_to_hash(lines.pop)
+          
+          # look for rec_ids, split into chunks, and pass each related class a piece of string
+          
+          buffer = []
+          current_user_set = nil
+          
+          lines.each do |line|
+            record_id = line[0..2]
+            user_set = UserSet.for_record_id(record_id)
+            
+            if current_user_set and user_set != current_user_set and buffer.length > 0
+              document_info[:transmission][:user_sets] << user_set.hash_from_s(buffer.join)
+              buffer = []
+            else  
+              buffer << line
+            end
+            
+            current_user_set = user_set
+          end
+          
+          if buffer.length > 0
+            document_info[:transmission][:user_sets] << current_user_set.hash_from_s(buffer.join)
+          end
+          
+          document_info
+        end
+        
+        def self.from_s(string)
+          options = self.hash_from_s(string)
+          Document.build(options)
+        end
+        
+        def to_file!(filename)
+          File.open(destination, 'w') do |file|
+            file.write(self.to_s)
+          end
+        end
+        
+        def from_file!(filename)
+          string = File.open(filename, "rb").read
         end
     
       end
