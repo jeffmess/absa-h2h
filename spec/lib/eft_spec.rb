@@ -76,7 +76,7 @@ describe Absa::H2h::Transmission::Eft::Header do
               no_credit_records: "1",
               no_contra_records: "1",
               total_debit_value: "1000",
-              total_credit_value: "20308000",
+              total_credit_value: "2000",
               hash_total_of_homing_account_numbers: "36311034141",
             },
           }
@@ -113,7 +113,7 @@ describe Absa::H2h::Transmission::Eft::Header do
     @header[0,51] = "001T049534#{today}#{today}#{today}#{today}0000010037CORPSSV"
     
     @trailer = " " * 198 + "\r\n"
-    @trailer[0,88] = "001T929534000001000002#{today}#{today}000001000001000001000000001000000020308000036311034141"    
+    @trailer[0,88] = "001T929534000001000002#{today}#{today}000001000001000001000000001000000000002000036311034141"    
     @transaction = " " * 198 + "\r\n"
     @transaction[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
     @transaction[134, 20] = "0" * 20
@@ -329,5 +329,20 @@ describe Absa::H2h::Transmission::Eft::Header do
     @user_set[:trailer][:total_debit_value] = "22500"
     
     lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("total_debit_value: Trailer records total debit value must equal the sum amount of all transactions and credit contra records. Expected 21500. Got 22500.")
+  end
+  
+  it "should validate the total value of credit transactions and any debit contra records in the trailer" do
+    @additional_transactions.each do |t|
+      t[:content][:bankserv_record_identifier] = "10" if t[:type] == "standard_record"
+      @user_set[:transactions] << t
+    end
+    @user_set[:transactions].last[:content][:amount] = "20500"
+    @user_set[:trailer][:last_sequence_number] = "7"
+    @user_set[:trailer][:no_debit_records] = "1"
+    @user_set[:trailer][:no_credit_records] = "6"
+    @user_set[:trailer][:no_contra_records] = "2"
+    @user_set[:trailer][:total_debit_value] = "21500"
+    
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("total_credit_value: Trailer records total credit value must equal the sum amount of all transactions and debit contra records. Expected 43000. Got 2000.")
   end
 end
