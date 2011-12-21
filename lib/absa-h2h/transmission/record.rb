@@ -10,20 +10,9 @@ module Absa::H2h::Transmission
     end
     
     def self.matches_definition?(string)
-      self.class_layout_rules.each do |k,v|
-        offset = v['offset'] - 1
-        length = v['length']
-        regex = v['regex']
-        value = string[offset,length]
-        
-        if k == 'rec_id'
-          value = value
-        elsif v['a_n'] == 'A'
-          value = value.rstrip
-        elsif v['a_n'] == 'N'
-          value = value.to_i.to_s
-        end
-        
+      self.class_layout_rules.each do |field, rule|
+        value = self.retrieve_field_value(string, field, rule)
+        regex = rule['regex']
         return false if regex and not value =~ /#{regex}/
       end
       
@@ -33,20 +22,8 @@ module Absa::H2h::Transmission
     def self.string_to_hash(string)
       hash = {}
       
-      self.class_layout_rules.each do |k,v|
-        offset = v['offset'] - 1
-        length = v['length']
-        value = string[offset, length]
-        
-        if k == 'rec_id'
-          value = value
-        elsif v['a_n'] == 'A'
-          value = value.rstrip
-        elsif v['a_n'] == 'N'
-          value = value.to_i.to_s
-        end
-        
-        hash[k.to_sym] = value
+      self.class_layout_rules.each do |field, rule|
+        hash[field.to_sym] = self.retrieve_field_value(string, field, rule)
       end
       
       hash
@@ -55,6 +32,19 @@ module Absa::H2h::Transmission
     def self.from_s(string)
       options = self.string_to_hash(string)
       record = self.new(options)
+    end
+    
+    protected
+    
+    def self.retrieve_field_value(string, field, rule)
+      offset = rule['offset'] - 1
+      length = rule['length']
+      field_type = rule['a_n']
+      
+      value = string[offset, length]
+      value = value.rstrip if field_type == 'A' and field != 'rec_id'
+      value = value.to_i.to_s if field_type == 'N' and field != 'rec_id'
+      value
     end
         
   end
