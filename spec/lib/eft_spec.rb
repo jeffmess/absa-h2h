@@ -222,12 +222,13 @@ describe Absa::H2h::Transmission::Eft::Header do
     @additional_transactions.each do |t|
       @user_set[:transactions] << t
     end
+    today = Time.now.strftime("%y%m%d")
     @user_set[:header][:last_action_date] = (Time.now + (3*24*3600)).strftime("%y%m%d")
     @user_set[:trailer][:last_action_date] = (Time.now + (3*24*3600)).strftime("%y%m%d")
     @user_set[:transactions][3][:content][:action_date] = (Time.now + (2*24*3600)).strftime("%y%m%d")
     @user_set[:transactions].last[:content][:amount] = "20500"
     
-    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got [\"111220\", \"111222\", \"111220\", \"111220\"].")
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("action_date: Contra records action date must be equal to all preceeding standard transactions action date. Got [\"#{today}\", \"#{(Time.now + (2*24*3600)).strftime("%y%m%d")}\", \"#{today}\", \"#{today}\"].")
   end
   
   it "should validate the contra records user nominated account against all its transactions" do
@@ -253,6 +254,26 @@ describe Absa::H2h::Transmission::Eft::Header do
   it "should raise an error if the contras homing branch does not match the user branch" do
     @user_set[:transactions].last[:content][:homing_branch] = "632100"
     lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("homing_branch: Should match the user branch. Got 632100. Expected 632005.")
+  end
+  
+  it "should raise an error if the contras homing account number does not match the user nominated account number" do
+    @user_set[:transactions].last[:content][:homing_account_number] = "2929292"
+    lambda {document = Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("homing_account_number: Should match the user nominated account number. Got 2929292. Expected 4053538939.")
+  end
+  
+  it "should raise an error if the contras user code does not match the headers bankserv user code" do
+    @user_set[:transactions].last[:content][:user_code] = "8888"
+    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_code: Contra records user code must match the headers users code. Got 8888. Expected 9534.")
+  end
+  
+  it "should raise an error if the contras user reference position 1-10 is blank" do
+    @user_set[:transactions].last[:content][:user_reference] = "          CONTRA 040524 08"
+    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
+  end
+  
+  it "should raise an error if the contras user reference position 11-16 does not match CONTRA" do
+    @user_set[:transactions].last[:content][:user_reference] = "ALIMITTST1CON RA 040524 08"
+    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_reference: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got CON RA")
   end
   
 end

@@ -50,6 +50,8 @@ module Absa
             if (transactions.map(&:user_branch).uniq.length > 1) or (transactions.map(&:user_branch).first != transaction.user_branch)
               raise "user_branch_code: Contra records user branch must match all preceeding standard transactions user branch. Got #{transactions.map(&:user_branch)}."
             end
+            
+            raise "user_code: Contra records user code must match the headers users code. Got #{transaction.user_code}. Expected #{@header.bankserv_user_code}." unless transaction.user_code == @header.bankserv_user_code
           end
           
         end
@@ -84,8 +86,9 @@ module Absa
           def validate!(options={})
             super(options)
             raise "homing_branch: Should match the user branch. Got #{@homing_branch}. Expected #{@user_branch}." unless @homing_branch == @user_branch
-            # raise "user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_reference[0..11].blank?
-            # raise "homing_account_name: Not to be left blank." if @homing_account_name.blank?
+            raise "homing_account_number: Should match the user nominated account number. Got #{@homing_account_number}. Expected #{@user_nominated_account}." unless @homing_account_number == @user_nominated_account
+            raise "user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_reference[0..9].blank?
+            raise "user_reference: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got #{@user_reference[10..15]}" if @user_reference[10..15] != "CONTRA"
           end
           
         end
