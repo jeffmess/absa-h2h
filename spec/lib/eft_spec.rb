@@ -76,8 +76,8 @@ describe Absa::H2h::Transmission::Eft::Header do
               no_credit_records: "1",
               no_contra_records: "1",
               total_debit_value: "1000",
-              total_credit_value: "2000",
-              hash_total_of_homing_account_numbers: "36311034141",
+              total_credit_value: "1000",
+              hash_total_of_homing_account_numbers: "5073150838",
             },
           }
         }]
@@ -113,7 +113,7 @@ describe Absa::H2h::Transmission::Eft::Header do
     @header[0,51] = "001T049534#{today}#{today}#{today}#{today}0000010037CORPSSV"
     
     @trailer = " " * 198 + "\r\n"
-    @trailer[0,88] = "001T929534000001000002#{today}#{today}000001000001000001000000001000000000002000036311034141"    
+    @trailer[0,88] = "001T929534000001000002#{today}#{today}000001000001000001000000001000000000001000005073150838"    
     @transaction = " " * 198 + "\r\n"
     @transaction[0,172] = "001T5063200504053538939953400000163200501019611899100000001000#{today}440   ALIMITTST1SPP    040524 01    HENNIE DU TOIT   040524                                           21"
     @transaction[134, 20] = "0" * 20
@@ -343,6 +343,8 @@ describe Absa::H2h::Transmission::Eft::Header do
     @user_set[:trailer][:no_contra_records] = "2"
     @user_set[:trailer][:total_debit_value] = "21500"
     
-    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("total_credit_value: Trailer records total credit value must equal the sum amount of all transactions and debit contra records. Expected 43000. Got 2000.")
+    lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("total_credit_value: Trailer records total credit value must equal the sum amount of all transactions and debit contra records. Expected 42000. Got 1000.")
   end
+  
+  
 end

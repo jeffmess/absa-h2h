@@ -84,6 +84,10 @@ module Absa
           unless @trailer.total_credit_value.to_i == self.total_credit_transactions
             raise "total_credit_value: Trailer records total credit value must equal the sum amount of all transactions and debit contra records. Expected #{self.total_credit_transactions}. Got #{@trailer.total_credit_value.to_i}."
           end
+          
+          unless @trailer.hash_total_of_homing_account_numbers.to_i == self.homing_numbers_hash_total
+            raise "hash_total_of_homing_account_numbers: Trailers hash total of homing account numbers does not match. Expected #{self.homing_numbers_hash_total}. Got #{@trailer.hash_total_of_homing_account_numbers}."
+          end
         end
         
         def validate!
@@ -149,6 +153,11 @@ module Absa
           
           end_point = sequence.index(contra_record.user_sequence_number)-1
           @transactions[start_point..end_point]
+        end
+        
+        def homing_numbers_hash_total
+          ns_homing_account_number_total = self.standard_records.map(&:non_standard_homing_account_number).empty? ? 0 : self.standard_records.map(&:non_standard_homing_account_number).map(&:to_i).inject(&:+)
+          field9 = @transactions.map(&:homing_account_number).map(&:to_i).inject(&:+) + ns_homing_account_number_total
         end
         
         class Header < Record; end
