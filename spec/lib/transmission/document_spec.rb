@@ -95,7 +95,8 @@ describe Absa::H2h::Transmission::Document do
   context "when parsing a file" do
     
     it "should build a valid document" do
-      file_names = ['ahv_input_file.txt','eft_input_file.txt']
+      #file_names = ['ahv_input_file.txt','eft_input_file.txt']
+      file_names = ['ahv_input_file.txt']
       
       file_names.each do |file_name|
         input_string = File.open("./spec/examples/#{file_name}", "rb").read

@@ -43,6 +43,8 @@ module Absa::H2h::Transmission
         return Absa::H2h::Transmission::AccountHolderVerification
       when '001'
         return Absa::H2h::Transmission::Eft
+      #when '010','011','013','014','016','017','018','019'
+      #  return Absa::H2h::Transmission::EftOutput
       end
     end
     
