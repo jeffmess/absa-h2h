@@ -8,7 +8,7 @@ describe Absa::H2h do
         header: {
           rec_id: "000",
           th_rec_status: "T",
-          th_date: Time.now.strftime("%Y%m%d"),
+          th_date: "20111221",
           th_client_code: "345",
           th_client_name: "DOUGLAS ANDERSON",
           th_transmission_no: "1234567",
