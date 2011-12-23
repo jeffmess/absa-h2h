@@ -3,7 +3,7 @@ header:
     a_n: N
     offset: 1
     length: 3
-    regex: ^0{3}$
+    regex: ^000$
   th_rec_status:
     a_n: A
     offset: 4
@@ -30,7 +30,7 @@ header:
     a_n: N
     offset: 55
     length: 5
-    regex: ^0$
+    input_regex: ^0$
   th_for_use_of_ld_user:
     a_n: A
     offset: 179

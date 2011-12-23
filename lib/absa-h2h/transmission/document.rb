@@ -9,7 +9,7 @@ module Absa
         
         def self.from_s(string)
           options = self.hash_from_s(string)
-          Document.build(options[:data])
+          self.build(options[:data])
         end
         
         def to_file!(filename)

@@ -17,12 +17,11 @@ header:
     a_n: N
     offset: 9
     length: 7
-    regex: ^[0-9]{7}$
   bankserv_service:
     a_n: N
     offset: 16
     length: 2
-    regex: ^01|02|03|08|09$
+    regex: ^1|2|3|8|9$
 trailer:
   rec_id:
     a_n: N

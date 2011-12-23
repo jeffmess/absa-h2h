@@ -1,4 +1,4 @@
-unpaid_header:
+header:
   rec_id:
     a_n: N
     offset: 1
@@ -25,13 +25,13 @@ unpaid_header:
     a_n: N
     offset: 31
     length: 2
-    regex: ^01|02$
+    regex: ^1|2$
   action_date:
     a_n: N
     offset: 33
     length: 8
     regex: ^[0-9]{8}$
-unpaid_transaction:
+transaction:
   rec_id:
     a_n: N
     offset: 1
@@ -88,7 +88,7 @@ unpaid_transaction:
     a_n: A
     offset: 114
     length: 30
-unpaid_trailer:
+trailer:
   rec_id:
     a_n: N
     offset: 1

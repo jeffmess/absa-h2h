@@ -1,37 +1,3 @@
-
-# {
-#   type: 'document',
-#   data: [
-#     {type: 'header', data: {}},
-#     {type: 'account_holder_verification', data: [          
-#     ]},
-#     {type: 'eft', data: [
-#       {type: 'header', data: {}},
-#       {type: 'trailer', data: {}}
-#     ]},
-#     {type: 'eft_output', data: [
-#       {type: 'header', data: {}},
-#       {type: 'unpaid', data: [
-#         {type: 'header', data: {}},
-#         {type: 'transaction', data: {}},
-#         {type: 'transaction', data: {}},
-#         {type: 'transaction', data: {}},
-#         {type: 'trailer', data: {}}
-#       ]},
-#       {type: 'redirect', data: [
-#         {type: 'header', data: {}},
-#         {type: 'distribution_transaction', data: {}},
-#         {type: 'distribution_transaction', data: {}},
-#         {type: 'distribution_transaction', data: {}},
-#         {type: 'trailer', data: {}}
-#       ]},
-#       {type: 'trailer', data: {}}
-#     ]},
-#     {type: 'trailer', data: {}}
-#   ]
-# }
-
-
 module Absa::H2h::Transmission
   class Set
     
@@ -80,7 +46,9 @@ module Absa::H2h::Transmission
       string
     end
     
-    def self.for_record_id(record_id) # move this logic to yml file
+    def self.for_record(record) # move this logic to yml file
+      record_id = record[0..2]
+      
       case record_id
       when '000','999'
         return Absa::H2h::Transmission::Document
@@ -88,8 +56,12 @@ module Absa::H2h::Transmission
         return Absa::H2h::Transmission::AccountHolderVerification
       when '001'
         return Absa::H2h::Transmission::Eft
-      #when '010','011','013','014','016','017','018','019'
-      #  return Absa::H2h::Transmission::EftOutput
+      when '010','019'
+        return Absa::H2h::Transmission::EftOutput
+      when '011','013','014'
+        return Absa::H2h::Transmission::EftUnpaid
+      when '016','017','018'
+        return Absa::H2h::Transmission::EftRedirect
       end
     end
     
@@ -99,13 +71,13 @@ module Absa::H2h::Transmission
         return '999'
       when 'Absa::H2h::Transmission::AccountHolderVerification'
         return '039'
-      #when Absa::H2h::Transmission::EftOutput
-      #  return '019'
-      end  
-      # when '010','011','013','014','016','017','018','019'
-      #        return Absa::H2h::Transmission::EftOutput
-      #      end
-      
+      when 'Absa::H2h::Transmission::EftOutput'
+        return '019'
+      when 'Absa::H2h::Transmission::EftUnpaid'
+        return '014'
+      when 'Absa::H2h::Transmission::EftRedirect'
+        return '018'
+      end
     end  
     
     def self.is_trailer_record?(set, record)
@@ -137,20 +109,20 @@ module Absa::H2h::Transmission
       
       buffer = []
       current_set = nil
+      subset = nil
       
       lines.each do |line|
-        record_id = line[0..2]
-        
-        if Set.for_record_id(record_id) == self
+        if Set.for_record(line) == self
           record = line[0, 198]
           set_info[:data] << self.process_record(record)
         else
-          subset = Set.for_record_id(record_id)          
+          subset = Set.for_record(line) unless subset        
           buffer << line
           
           if self.is_trailer_record?(subset, line)
             set_info[:data] << subset.hash_from_s(buffer.join)
             buffer = []
+            subset = nil
           end
         end
       end

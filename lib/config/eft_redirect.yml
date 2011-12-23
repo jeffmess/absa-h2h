@@ -25,7 +25,7 @@ header:
     a_n: N
     offset: 31
     length: 2
-    regex: ^01$
+    regex: ^1$
   action_date:
     a_n: N
     offset: 33
@@ -36,7 +36,7 @@ transaction:
     a_n: N
     offset: 1
     length: 3
-    regex: ^016$
+    regex: ^017$
   rec_status:
     a_n: A
     offset: 4
