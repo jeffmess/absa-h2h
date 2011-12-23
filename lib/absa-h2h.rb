@@ -4,7 +4,6 @@ require "yaml"
 
 require 'absa-h2h/helpers'
 require 'absa-h2h/transmission/set'
-require 'absa-h2h/transmission/user_set'
 require 'absa-h2h/transmission/record'
 require 'absa-h2h/transmission/document'
 require 'absa-h2h/account_holder_verification'
