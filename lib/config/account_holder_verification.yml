@@ -51,11 +51,11 @@ internal_account_detail:
     a_n: N
     offset: 5
     length: 7    
-  acc_no:
+  account_number:
     a_n: N
     offset: 12
     length: 18
-  idno:
+  id_number:
     a_n: A
     offset: 30
     length: 13
@@ -107,11 +107,11 @@ external_account_detail:
     a_n: N
     offset: 5
     length: 7    
-  acc_no:
+  account_number:
     a_n: N
     offset: 12
     length: 18
-  idno:
+  id_number:
     a_n: A
     offset: 30
     length: 13
