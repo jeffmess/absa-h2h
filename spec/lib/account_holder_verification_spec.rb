@@ -70,7 +70,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
           return_code_4: "0",
           user_ref: "AND033",
           branch_code: "255023",
-          originating_bank: "000060",
+          originating_bank: "60",
           ld_code: "LD00000",
           return_code_5: "0",
           return_code_6: "0",

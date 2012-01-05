@@ -13,7 +13,9 @@ module Absa::H2h::Transmission
       self.class_layout_rules.each do |field, rule|
         value = self.retrieve_field_value(string, field, rule)
         regex = rule['regex']
+        fixed_val = rule['fixed_val']
         return false if regex and not value =~ /#{regex}/
+        return false if fixed_val and value != fixed_val
       end
       
       true
@@ -32,6 +34,24 @@ module Absa::H2h::Transmission
     def self.from_s(string)
       options = self.string_to_hash(string)
       record = self.new(options)
+    end
+    
+    def self.input_template(set_type, record_type)
+      klass = "Absa::H2h::Transmission::#{set_type.camelize}::#{record_type.camelize}".constantize
+      hash = {}
+      
+      klass.class_layout_rules.each do |field, rule|
+        value = rule.has_key?('fixed_val') ? rule['fixed_val'] : nil
+        
+        if value
+          value = value.rjust(rule['length'], "0") if rule['a_n'] == 'N'
+          value = value.ljust(rule['length'], " ") if rule['a_n'] == 'A'
+        end
+        
+        hash[field.to_sym] = value
+      end
+      
+      hash
     end
     
     protected

@@ -45,6 +45,7 @@ module RecordWriter
       raise "#{k}: Argument is not a string" unless v.is_a? String
       raise "#{k}: Input too long" if v.length > rule['length']
       raise "#{k}: Invalid data" if rule['regex'] && ((v =~ /#{rule['regex']}/) != 0)
+      raise "#{k}: Invalid data - expected #{rule['fixed_val']}, got #{v}" if rule['fixed_val'] && (v != rule['fixed_val'])
       raise "#{k}: Numeric value required" if (rule['a_n'] == 'N') && !(Float(v) rescue false)
     end
   end
