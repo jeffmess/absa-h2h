@@ -143,7 +143,7 @@ module Absa::H2h::Transmission
     end
     
     def self.layout_rules
-      file_name = "./lib/config/#{self.partial_class_name.underscore}.yml"
+      file_name = "#{Absa::H2h::CONFIG_DIR}/#{self.partial_class_name.underscore}.yml"
       
       YAML.load(File.open(file_name))
     end

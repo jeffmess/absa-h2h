@@ -53,7 +53,7 @@ module RecordWriter
   module ClassMethods
     
     def class_layout_rules
-      file_name = "./lib/config/#{self.name.split("::")[-2].underscore}.yml"
+      file_name = "#{Absa::H2h::CONFIG_DIR}/#{self.name.split("::")[-2].underscore}.yml"
       record_type = self.name.split("::")[-1].underscore
       
       YAML.load(File.open(file_name))[record_type]
