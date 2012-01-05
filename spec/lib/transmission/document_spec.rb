@@ -76,7 +76,7 @@ describe Absa::H2h::Transmission::Document do
 
   it "should raise an exception if a provided field fails to pass a specified field format" do
     @hash[:data][0][:data][:rec_id] = "100"
-    lambda {document = Absa::H2h::Transmission::Document.build(@hash[:data])}.should raise_error("rec_id: Invalid data")
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash[:data])}.should raise_error("rec_id: Invalid data - expected 000, got 100")
   end
 
   it "should raise an exception if an alpha character is passed into a numeric-only field" do
