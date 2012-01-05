@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Absa::H2h::Transmission::Record do
     
   it "should provide the default options for an input record" do
-    record_class = Absa::H2h::Transmission::Record.class_for('account_holder_verification', 'internal_account_detail')
+    record_class = Absa::H2h::Transmission::AccountHolderVerification.record_type('internal_account_detail')
     
     record_class.template_options.should == {
       :rec_id=>"031", 

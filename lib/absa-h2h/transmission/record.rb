@@ -36,11 +36,6 @@ module Absa::H2h::Transmission
       record = self.new(options)
     end
     
-    def self.class_for(set_type, record_type)
-      puts "Absa::H2h::Transmission::#{set_type.camelize}::#{record_type.camelize}"
-      "Absa::H2h::Transmission::#{set_type.camelize}::#{record_type.camelize}".constantize
-    end
-    
     def self.template_options
       hash = {}
       

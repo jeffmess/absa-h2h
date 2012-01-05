@@ -147,6 +147,10 @@ module Absa::H2h::Transmission
       
       YAML.load(File.open(file_name))
     end
+    
+    def self.record_type(record_type)
+      "#{self.name}::#{record_type.camelize}".constantize
+    end
    
   end
 end
