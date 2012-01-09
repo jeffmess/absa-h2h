@@ -7,7 +7,7 @@ describe Absa::H2h do
       transmission: {
         trailer: {
           rec_id: "999",
-          tt_rec_status: "T",
+          rec_status: "T",
           tt_no_of_recs: "7",
         }
       }

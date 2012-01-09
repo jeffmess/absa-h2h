@@ -35,7 +35,7 @@ describe Absa::H2h::Transmission::Document do
     @hash = {type: 'document', data: [
         {type: 'header', data: {
           rec_id: "000",
-          th_rec_status: "T",
+          rec_status: "T",
           th_date: Time.now.strftime("%Y%m%d"),
           th_client_code: "345",
           th_client_name: "DOUGLAS ANDERSON",
@@ -49,7 +49,7 @@ describe Absa::H2h::Transmission::Document do
         },
         {type: 'trailer', data: {
           rec_id: "999",
-          tt_rec_status: "T",
+          rec_status: "T",
           tt_no_of_recs: "7",
         }}
       ]

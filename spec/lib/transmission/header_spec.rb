@@ -7,7 +7,7 @@ describe Absa::H2h do
       transmission: {
         header: {
           rec_id: "000",
-          th_rec_status: "T",
+          rec_status: "T",
           th_date: "20111221",
           th_client_code: "345",
           th_client_name: "DOUGLAS ANDERSON",

@@ -4,7 +4,7 @@ header:
     offset: 1
     length: 3
     fixed_val: '000'
-  th_rec_status:
+  rec_status:
     a_n: A
     offset: 4
     length: 1
@@ -41,7 +41,7 @@ trailer:
     offset: 1
     length: 3
     fixed_val: '999'
-  tt_rec_status:
+  rec_status:
     a_n: A
     offset: 4
     length: 1
