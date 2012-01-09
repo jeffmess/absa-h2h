@@ -14,7 +14,7 @@ header:
     offset: 5
     length: 7
   dept_code:
-    a_n: N
+    a_n: A
     offset: 12
     length: 6
 trailer:

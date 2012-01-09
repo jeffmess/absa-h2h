@@ -101,7 +101,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
     header = Absa::H2h::Transmission::AccountHolderVerification::Header.new(@internal_section_content[0][:data])
   
     string = " " * 198 + "\r\n"
-    string[0,17] = "030T0000005000006"
+    string[0,12] = "030T00000056"
   
     header.to_s.should == string
   end
