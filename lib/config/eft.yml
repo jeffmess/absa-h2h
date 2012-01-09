@@ -13,7 +13,7 @@ header:
     a_n: N
     offset: 5
     length: 2
-    regex: ^4$
+    fixed_val: '4' 
   bankserv_user_code:
     a_n: A
     offset: 7
@@ -137,7 +137,7 @@ standard_record:
     a_n: N
     offset: 171
     length: 2
-    regex: ^21$
+    fixed_val: '21'
 contra_record:
   rec_id:
     a_n: N
@@ -182,7 +182,7 @@ contra_record:
     a_n: N
     offset: 51
     length: 1
-    regex: ^1$
+    fixed_val: '1'
   amount:
     a_n: N
     offset: 52
@@ -196,7 +196,7 @@ contra_record:
     a_n: N
     offset: 69
     length: 2
-    regex: ^10$
+    fixed_val: '10'
   user_reference:
     a_n: A
     offset: 75
@@ -221,7 +221,7 @@ trailer:
     a_n: N
     offset: 5
     length: 2
-    regex: ^92$
+    fixed_val: '92'
   bankserv_user_code:
     a_n: A
     offset: 7

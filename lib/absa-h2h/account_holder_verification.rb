@@ -2,7 +2,6 @@ module Absa
   module H2h
     module Transmission
       class AccountHolderVerification < Set
-        
         class Header < Record; end
         class Trailer < Record; end
         class InternalAccountDetail < Record; end
@@ -17,7 +16,6 @@ module Absa
             raise "seq_no mismatch: #{transactions.map {|t| t.seq_no}}"
           end             
         end
-
       end      
     end
   end
