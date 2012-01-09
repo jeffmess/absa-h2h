@@ -11,11 +11,12 @@ module Absa::H2h::Transmission
     
     def self.matches_definition?(string)      
       self.class_layout_rules.each do |field, rule|
-        value = self.retrieve_field_value(string, field, rule)
         regex = rule['regex']
         fixed_val = rule['fixed_val']
-        return false if regex and not value =~ /#{regex}/
+        value = self.retrieve_field_value(string, field, rule)
+        
         return false if fixed_val and value != fixed_val
+        return false if regex and not value =~ /#{regex}/
       end
       
       true
@@ -56,18 +57,22 @@ module Absa::H2h::Transmission
     protected
     
     def self.retrieve_field_value(string, field, rule)
+      i_dont_strip = ['rec_id','bankserv_creation_date','bankserv_purge_date','first_action_date','last_action_date','action_date'].include?(field) || rule['fixed_val']
+      
       offset = rule['offset'] - 1
       length = rule['length']
       field_type = rule['a_n']
       
-      i_dont_strip = ['rec_id','bankserv_creation_date','bankserv_purge_date','first_action_date','last_action_date','action_date']
-      
       value = string[offset, length]
-      value = value.rstrip if field_type == 'A' and not i_dont_strip.include?(field)
-      value = value.to_i.to_s if field_type == 'N' and not i_dont_strip.include?(field)
+      
+      unless i_dont_strip
+        value = value.rstrip if field_type == 'A'
+        value = value.to_i.to_s if field_type == 'N'
+      end
+      
       value
     end
-        
+    
   end
   
 end

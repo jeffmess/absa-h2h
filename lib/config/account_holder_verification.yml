@@ -72,22 +72,22 @@ internal_account_detail:
     a_n: N
     offset: 106
     length: 2
-    fixed_val: '0' 
+    fixed_val: '00' 
   return_code_2:
     a_n: N
     offset: 108
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_3:
     a_n: N
     offset: 110
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_4:
     a_n: N
     offset: 112
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   user_ref:
     a_n: A
     offset: 114
@@ -127,22 +127,22 @@ external_account_detail:
     a_n: N
     offset: 106
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_2:
     a_n: N
     offset: 108
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_3:
     a_n: N
     offset: 110
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_4:
     a_n: N
     offset: 112
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   user_ref:
     a_n: A
     offset: 114
@@ -164,29 +164,29 @@ external_account_detail:
     a_n: N
     offset: 163
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_6:
     a_n: N
     offset: 165
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_7:
     a_n: N
     offset: 167
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_8:
     a_n: N
     offset: 169
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_9:
     a_n: N
     offset: 171
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'
   return_code_10:
     a_n: N
     offset: 173
     length: 2
-    fixed_val: '0'
+    fixed_val: '00'

@@ -95,6 +95,7 @@ module Absa::H2h::Transmission
         if klass.matches_definition?(record)
           options = klass.string_to_hash(record)
           set_info = {type: record_type, data: options}
+          break
         end
       end            
       

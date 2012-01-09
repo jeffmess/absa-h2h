@@ -18,10 +18,10 @@ describe Absa::H2h::Transmission::Document do
         id_number: "6703085829086",
         initials: "M",
         surname: "CHAUKE",
-        return_code_1: "0",
-        return_code_2: "0",
-        return_code_3: "0",
-        return_code_4: "0",
+        return_code_1: "00",
+        return_code_2: "00",
+        return_code_3: "00",
+        return_code_4: "00",
         user_ref: "1495050000600002236"
       }},
       {type: 'trailer', data: {
@@ -101,6 +101,7 @@ describe Absa::H2h::Transmission::Document do
     
     it "should build a valid document" do
       file_names = ['ahv_input_file.txt','eft_input_file.txt','eft_output_file.txt']
+      file_names = ['ahv_input_file.txt']
       
       file_names.each do |file_name|
         input_string = File.open("./spec/examples/#{file_name}", "rb").read
