@@ -9,7 +9,7 @@ module Absa::H2h::Transmission
       validate! options
     end
     
-    def self.matches_definition?(string)      
+    def self.matches_definition?(string)
       self.class_layout_rules.each do |field, rule|
         regex = rule['regex']
         fixed_val = rule['fixed_val']

@@ -97,15 +97,30 @@ describe Absa::H2h::Transmission::Document do
     document.to_s.should == string
   end
   
-  context "when parsing a file" do
+  context "when parsing an input file" do
     
     it "should build a valid document" do
-      file_names = ['ahv_input_file.txt','eft_input_file.txt','eft_output_file.txt']
-      file_names = ['ahv_input_file.txt']
+      file_names = ['ahv_input_file.txt','eft_input_file.txt']
       
       file_names.each do |file_name|
         input_string = File.open("./spec/examples/#{file_name}", "rb").read
-        document = Absa::H2h::Transmission::Document.from_s(input_string)
+        document = Absa::H2h::Transmission::Document.from_s(input_string, "input")
+        
+        output_string = document.to_s
+        output_string.should == input_string
+      end
+    end
+    
+  end
+  
+  context "when parsing an output file" do
+    
+    it "should build a valid document" do
+      file_names = ['ahv_output_file.txt','eft_output_file.txt']
+      
+      file_names.each do |file_name|
+        input_string = File.open("./spec/examples/#{file_name}", "rb").read
+        document = Absa::H2h::Transmission::Document.from_s(input_string, "output")
         
         output_string = document.to_s
         output_string.should == input_string

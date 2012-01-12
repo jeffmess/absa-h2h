@@ -7,8 +7,8 @@ module Absa
         class Header < Record; end
         class Trailer < Record; end
         
-        def self.from_s(string)
-          options = self.hash_from_s(string)
+        def self.from_s(string, transmission_type)
+          options = self.hash_from_s(string, transmission_type)
           self.build(options[:data])
         end
         

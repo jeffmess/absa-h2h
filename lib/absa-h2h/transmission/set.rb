@@ -46,14 +46,14 @@ module Absa::H2h::Transmission
       string
     end
     
-    def self.for_record(record) # move this logic to yml file
+    def self.for_record(record, transmission_type) # move this logic to yml file
       record_id = record[0..2]
       
       case record_id
       when '000','999'
         return Absa::H2h::Transmission::Document
       when '030','031','039'
-        return Absa::H2h::Transmission::AccountHolderVerification
+        return (transmission_type == "output") ? Absa::H2h::Transmission::AccountHolderVerificationOutput : Absa::H2h::Transmission::AccountHolderVerification
       when '001'
         return Absa::H2h::Transmission::Eft
       when '010','019'
@@ -70,6 +70,8 @@ module Absa::H2h::Transmission
       when 'Absa::H2h::Transmission::Document'
         return '999'
       when 'Absa::H2h::Transmission::AccountHolderVerification'
+        return '039'
+      when 'Absa::H2h::Transmission::AccountHolderVerificationOutput'
         return '039'
       when 'Absa::H2h::Transmission::EftOutput'
         return '019'
@@ -97,12 +99,12 @@ module Absa::H2h::Transmission
           set_info = {type: record_type, data: options}
           break
         end
-      end            
+      end
       
       set_info
     end
     
-    def self.hash_from_s(string)
+    def self.hash_from_s(string, transmission_type)
       set_info = {type: self.partial_class_name.underscore, data: []}
       lines = string.split(/^/)
             
@@ -113,15 +115,15 @@ module Absa::H2h::Transmission
       subset = nil
       
       lines.each do |line|
-        if Set.for_record(line) == self
+        if Set.for_record(line, transmission_type) == self
           record = line[0, 198]
           set_info[:data] << self.process_record(record)
         else
-          subset = Set.for_record(line) unless subset        
+          subset = Set.for_record(line, transmission_type) unless subset        
           buffer << line
           
           if self.is_trailer_record?(subset, line)
-            set_info[:data] << subset.hash_from_s(buffer.join)
+            set_info[:data] << subset.hash_from_s(buffer.join, transmission_type)
             buffer = []
             subset = nil
           end
