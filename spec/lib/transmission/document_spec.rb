@@ -8,7 +8,7 @@ describe Absa::H2h::Transmission::Document do
         rec_id: "030",
         rec_status: "T",
         gen_no: "5",
-        dept_code: "6"
+        dept_code: "000006"
       }},
       {type: 'internal_account_detail', data: {
         rec_id: "031",
@@ -88,7 +88,7 @@ describe Absa::H2h::Transmission::Document do
     document = Absa::H2h::Transmission::Document.build(@hash[:data])
     
     string = "000T#{Time.now.strftime("%Y%m%d")}00345DOUGLAS ANDERSON              123456700000                                                                                                                       SPECIAL TOKEN HERE  \r
-030T00000056                                                                                                                                                                                          \r
+030T0000005000006                                                                                                                                                                                     \r
 031T00000010000000010944025246703085829086M  CHAUKE                                                      000000001495050000600002236                                                                  \r
 039T0000001000000006554885370                                                                                                                                                                         \r
 999T000000007                                                                                                                                                                                         \r

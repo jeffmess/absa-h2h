@@ -9,7 +9,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
         rec_id: "030",
         rec_status: "T",
         gen_no: "5",
-        dept_code: "6"
+        dept_code: "000006"
       }},
       {type: 'internal_account_detail', data: {
         rec_id: "031",
@@ -52,7 +52,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
         rec_id: "030",
         rec_status: "T",
         gen_no: "5",
-        dept_code: "6"
+        dept_code: "000006"
       }},
       {
         type: 'external_account_detail', 
@@ -101,7 +101,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
     header = Absa::H2h::Transmission::AccountHolderVerification::Header.new(@internal_section_content[0][:data])
   
     string = " " * 198 + "\r\n"
-    string[0,12] = "030T00000056"
+    string[0,17] = "030T0000005000006"
   
     header.to_s.should == string
   end
