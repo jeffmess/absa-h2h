@@ -8,11 +8,11 @@ describe Absa::H2h do
         header: {
           rec_id: "000",
           rec_status: "T",
-          th_date: "20111221",
-          th_client_code: "345",
-          th_client_name: "DOUGLAS ANDERSON",
-          th_transmission_no: "1234567",
-          th_destination: "0",
+          date: "20111221",
+          client_code: "345",
+          client_name: "DOUGLAS ANDERSON",
+          transmission_no: "1234567",
+          destination: "0",
           th_for_use_of_ld_user: "Special Token Here"
         }
       }

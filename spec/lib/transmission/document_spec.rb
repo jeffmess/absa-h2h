@@ -36,11 +36,11 @@ describe Absa::H2h::Transmission::Document do
         {type: 'header', data: {
           rec_id: "000",
           rec_status: "T",
-          th_date: Time.now.strftime("%Y%m%d"),
-          th_client_code: "345",
-          th_client_name: "DOUGLAS ANDERSON",
-          th_transmission_no: "1234567",
-          th_destination: "0",
+          date: Time.now.strftime("%Y%m%d"),
+          client_code: "345",
+          client_name: "DOUGLAS ANDERSON",
+          transmission_no: "1234567",
+          destination: "0",
           th_for_use_of_ld_user: "SPECIAL TOKEN HERE"
         }},
         {
@@ -50,17 +50,17 @@ describe Absa::H2h::Transmission::Document do
         {type: 'trailer', data: {
           rec_id: "999",
           rec_status: "T",
-          tt_no_of_recs: "7",
+          no_of_recs: "7",
         }}
       ]
     }    
   end
   
-  it "should only accept 0 for the th_destination in the document header when building an input document" do
+  it "should only accept 0 for the destination in the document header when building an input document" do
     pending
   end
   
-  it "should accept any number for the th_destination in the document header when building an output document" do
+  it "should accept any number for the destination in the document header when building an output document" do
     pending
   end
   
@@ -80,8 +80,8 @@ describe Absa::H2h::Transmission::Document do
   end
 
   it "should raise an exception if an alpha character is passed into a numeric-only field" do
-    @hash[:data][0][:data][:th_client_code] = "1234A"
-    lambda {document = Absa::H2h::Transmission::Document.build(@hash[:data])}.should raise_error("th_client_code: Numeric value required")
+    @hash[:data][0][:data][:client_code] = "1234A"
+    lambda {document = Absa::H2h::Transmission::Document.build(@hash[:data])}.should raise_error("client_code: Numeric value required")
   end
   
   it "should be able to build a complete document" do
