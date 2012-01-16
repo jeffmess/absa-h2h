@@ -4,6 +4,14 @@ module RecordWriter
     @layout_rules ||= self.class.class_layout_rules  
   end
   
+  def exposed_rules
+    layout_rules.select {|key, rule| !(rule["expose"] == false && rule.has_key?("expose")) }
+  end
+  
+  def filler_rules
+    @filler_rules ||= self.class.filler_layout_rules  
+  end
+  
   def set_layout_variables(options = {})
     self.class.define_attribute_accessors
     
@@ -14,16 +22,26 @@ module RecordWriter
     end
     
     layout_rules.each do |k,v|
-      self.class.send :attr_accessor, k
-      self.send "#{k}=", v['value'] if v.has_key? "value"
+      self.class.send(:attr_accessor, k) unless (v["expose"] && v["expose"] == false)
+      # self.send "#{k}=", v['fixed_val'] if v.has_key? ""
     end
+  end
+  
+  def set_filler(string)
+    filler_rules.each do |key, value|
+      string[(value["offset"] - 1), value["length"]] = value["fixed_val"]
+    end
+    
+    return string
   end
           
   def to_s
     @string = " " * 198 + "\r\n"
+    @string = set_filler(@string)
+    
     @string = "#{@string}"
     
-    self.layout_rules.each do |field_name,rule|
+    self.exposed_rules.each do |field_name,rule|
       value = self.send(field_name) || ""
 
       value = value.rjust(rule['length'], "0") if rule['a_n'] == 'N'
@@ -57,6 +75,10 @@ module RecordWriter
       record_type = self.name.split("::")[-1].underscore
       
       YAML.load(File.open(file_name))[record_type]
+    end
+    
+    def filler_layout_rules
+      class_layout_rules.select {|key, rule| rule.has_key?("expose") && rule["expose"] == false && rule.has_key?("fixed_val")}
     end
       
     def define_attribute_accessors

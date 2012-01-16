@@ -202,10 +202,11 @@ contra_record:
     offset: 75
     length: 30
   filler:
-    a_n: N
+    a_n: A
     offset: 71
     length: 4
     fixed_val: '0000'
+    expose: false
 trailer:
   rec_id:
     a_n: N
