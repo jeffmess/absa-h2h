@@ -8,7 +8,7 @@ describe Absa::H2h do
         trailer: {
           rec_id: "999",
           rec_status: "T",
-          tt_no_of_recs: "7",
+          no_of_recs: "7",
         }
       }
     }
