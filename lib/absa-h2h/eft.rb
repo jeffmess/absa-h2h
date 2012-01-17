@@ -171,8 +171,8 @@ module Absa
             super(options)
             raise "homing_branch: Should match the user branch. Got #{@homing_branch}. Expected #{@user_branch}." unless @homing_branch == @user_branch
             raise "homing_account_number: Should match the user nominated account number. Got #{@homing_account_number}. Expected #{@user_nominated_account}." unless @homing_account_number == @user_nominated_account
-            raise "user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_reference[0..9].blank?
-            raise "user_reference: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got #{@user_reference[10..15]}" if @user_reference[10..15] != "CONTRA"
+            raise "user_ref: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_ref[0..9].blank?
+            raise "user_ref: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got #{@user_ref[10..15]}" if @user_ref[10..15] != "CONTRA"
           end
           
         end
@@ -186,7 +186,7 @@ module Absa
           def validate!(options={})
             super(options)
             
-            raise "user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_reference[0..11].blank?
+            raise "user_ref: Position 1 - 10 is compulsory. Please provide users abbreviated name." if @user_ref[0..11].blank?
             raise "homing_account_name: Not to be left blank." if @homing_account_name.blank?
           end
           

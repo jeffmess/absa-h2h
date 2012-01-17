@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Absa::H2h::Transmission::Eft::Header do
+describe Absa::H2h::Transmission::Eft do
   
   before(:each) do
     @hash = {
@@ -38,7 +38,7 @@ describe Absa::H2h::Transmission::Eft::Header do
                 action_date: Time.now.strftime("%y%m%d"),
                 entry_class: "44",
                 tax_code: "0",
-                user_reference: "ALIMITTST1SPP    040524 01",
+                user_ref: "ALIMITTST1SPP    040524 01",
                 homing_account_name: "HENNIE DU TOIT   040524",
                 homing_institution: "21"
             }},
@@ -56,7 +56,7 @@ describe Absa::H2h::Transmission::Eft::Header do
                 amount: "1000",
                 action_date: Time.now.strftime("%y%m%d"),
                 entry_class: "10",
-                user_reference: "ALIMITTST1CONTRA 040524 08"
+                user_ref: "ALIMITTST1CONTRA 040524 08"
             }},
             {type: 'trailer', data: {
               rec_id: "001",
@@ -96,7 +96,7 @@ describe Absa::H2h::Transmission::Eft::Header do
         action_date: (Time.now + (2*24*3600)).strftime("%y%m%d"),
         entry_class: "44",
         tax_code: "0",
-        user_reference: "ALIMITTST1SPP    040524 01",
+        user_ref: "ALIMITTST1SPP    040524 01",
         homing_account_name: "HENNIE DU TOIT   040524",
         homing_institution: "21"
       },
@@ -115,27 +115,27 @@ describe Absa::H2h::Transmission::Eft::Header do
     
     @additional_transactions = [{type: "standard_record", data: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
       user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "3",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
-      amount: "12000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      amount: "12000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_ref: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
       homing_institution: "21"
     }},
     {type: "standard_record", data: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
       user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "4",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
-      amount: "1000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      amount: "1000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_ref: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
       homing_institution: "21"
     }},
     {type: "standard_record", data: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
       user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "5",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
-      amount: "4000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      amount: "4000",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_ref: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
       homing_institution: "21"
     }},
     {type: "standard_record", data: { rec_id: "001", rec_status: "T", bankserv_record_identifier: "50",user_branch: "632005",
       user_nominated_account: "4053538939", user_code: "9534",user_sequence_number: "6",homing_branch: "632005",homing_account_number: "01019611899",type_of_account: "1",
-      amount: "3500",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_reference: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
+      amount: "3500",action_date: Time.now.strftime("%y%m%d"),entry_class: "44",tax_code: "0",user_ref: "ALIMITTST1SPP    040524 01",homing_account_name: "HENNIE DU TOIT   040524",
       homing_institution: "21"
     }},
     {type: "contra_record",data: {rec_id: "001",rec_status: "T",bankserv_record_identifier: "52",user_branch: "632005",user_nominated_account: "4053538939",
       user_code: "9534", user_sequence_number: "7",homing_branch: "632005",homing_account_number: "4053538939",type_of_account: "1",amount: "21500",
-      action_date: Time.now.strftime("%y%m%d"),entry_class: "10",user_reference: "ALIMITTST1CONTRA 040524 08"
+      action_date: Time.now.strftime("%y%m%d"),entry_class: "10",user_ref: "ALIMITTST1CONTRA 040524 08"
     }}]
   end
   
@@ -290,13 +290,13 @@ describe Absa::H2h::Transmission::Eft::Header do
   end
   
   it "should raise an error if the contras user reference position 1-10 is blank" do
-    @user_set[1..-2].last[:data][:user_reference] = "          CONTRA 040524 08"
-    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
+    @user_set[1..-2].last[:data][:user_ref] = "          CONTRA 040524 08"
+    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_ref: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
   end
   
   it "should raise an error if the contras user reference position 11-16 does not match CONTRA" do
-    @user_set[1..-2].last[:data][:user_reference] = "ALIMITTST1CON RA 040524 08"
-    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_reference: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got CON RA")
+    @user_set[1..-2].last[:data][:user_ref] = "ALIMITTST1CON RA 040524 08"
+    lambda { Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("user_ref: Position 11 - 16 is compulsory and must be set to 'CONTRA'. Got CON RA")
   end
   
   it "should raise an error if the trailer records last sequence number does not match the preceeding contra records sequence number" do

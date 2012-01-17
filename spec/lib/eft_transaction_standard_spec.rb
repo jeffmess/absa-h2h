@@ -24,7 +24,7 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
                 action_date: Time.now.strftime("%y%m%d"),
                 entry_class: "44",
                 tax_code: "0",
-                user_reference: "ALIMITTST1SPP    040524 01",
+                user_ref: "ALIMITTST1SPP    040524 01",
                 homing_account_name: "HENNIE DU TOIT   040524",
                 homing_institution: "21"
               }
@@ -44,7 +44,7 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
                 amount: "16028000",
                 action_date: Time.now.strftime("%y%m%d"),
                 entry_class: "10",
-                user_reference: "ALIMITTST1CONTRA 040524 08"
+                user_ref: "ALIMITTST1CONTRA 040524 08"
               }
             }],
           }
@@ -76,8 +76,8 @@ describe Absa::H2h::Transmission::Eft::StandardRecord do
   end
   
   it "should raise an exception if the user reference has blank values for pos 1-10" do
-    @eft_transaction[:user_reference] = "               0404404"
-    lambda {Absa::H2h::Transmission::Eft::StandardRecord.new(@eft_transaction)}.should raise_error("user_reference: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
+    @eft_transaction[:user_ref] = "               0404404"
+    lambda {Absa::H2h::Transmission::Eft::StandardRecord.new(@eft_transaction)}.should raise_error("user_ref: Position 1 - 10 is compulsory. Please provide users abbreviated name.")
   end
   
   it "should raise an exception if the homing account name is blank" do

@@ -121,7 +121,7 @@ standard_record:
     a_n: N
     offset: 71
     length: 1
-  user_reference:
+  user_ref:
     a_n: A
     offset: 75
     length: 30
@@ -197,7 +197,7 @@ contra_record:
     offset: 69
     length: 2
     fixed_val: '10'
-  user_reference:
+  user_ref:
     a_n: A
     offset: 75
     length: 30
