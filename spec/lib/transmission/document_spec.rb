@@ -22,7 +22,7 @@ describe Absa::H2h::Transmission::Document do
         return_code_2: "00",
         return_code_3: "00",
         return_code_4: "00",
-        user_ref: "1495050000600002236"
+        user_reference: "1495050000600002236"
       }},
       {type: 'trailer', data: {
         rec_id: "039",

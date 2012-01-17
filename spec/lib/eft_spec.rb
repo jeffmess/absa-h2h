@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Absa::H2h::Transmission::Eft::Header do
+describe Absa::H2h::Transmission::Eft do
   
   before(:each) do
     @hash = {
