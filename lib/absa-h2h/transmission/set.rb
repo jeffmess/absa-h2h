@@ -54,7 +54,7 @@ module Absa::H2h::Transmission
         return Absa::H2h::Transmission::Document
       when '030','031','039'
         return (transmission_type == "output") ? Absa::H2h::Transmission::AccountHolderVerificationOutput : Absa::H2h::Transmission::AccountHolderVerification
-      when '001'
+      when '001', '020'
         return Absa::H2h::Transmission::Eft
       when '010','019'
         return Absa::H2h::Transmission::EftOutput
@@ -84,7 +84,7 @@ module Absa::H2h::Transmission
     
     def self.is_trailer_record?(set, record)
       record_id = record[0,3]
-      return true if set == Absa::H2h::Transmission::Eft and record_id == "001" and record[4,2] == "92"
+      return true if set == Absa::H2h::Transmission::Eft and (["001","020"].include? record_id) and record[4,2] == "92"
       self.trailer_id(set) == record_id
     end
     

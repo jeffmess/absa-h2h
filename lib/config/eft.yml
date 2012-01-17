@@ -50,7 +50,7 @@ header:
     a_n: A
     offset: 45
     length: 10
-    regex: ^CORPSSV|SAMEDAY|ONE DAY|TWO DAY|INTERNAL$
+    regex: ^CORPSSV|SAMEDAY|ONE DAY|TWO DAY|INTERNAL|BATCH$
   accepted_report:
     a_n: A
     offset: 55

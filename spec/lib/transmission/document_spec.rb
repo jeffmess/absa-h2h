@@ -127,6 +127,11 @@ describe Absa::H2h::Transmission::Document do
       end
     end
     
+    it "should build a valid eft credit document" do
+      string = File.open("./spec/examples/eft_input_credit_file.txt", "rb").read
+      document = Absa::H2h::Transmission::Document.from_s(string, "output")
+    end
+    
   end
   
 end
