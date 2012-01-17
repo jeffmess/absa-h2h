@@ -17,7 +17,7 @@ describe Absa::H2h::Transmission::Record do
       :return_code_2=>"00", 
       :return_code_3=>"00", 
       :return_code_4=>"00", 
-      :user_reference=>nil
+      :user_ref=>nil
     }
   end
       

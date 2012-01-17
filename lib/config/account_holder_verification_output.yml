@@ -84,7 +84,7 @@ internal_account_detail:
     a_n: N
     offset: 112
     length: 2
-  user_reference:
+  user_ref:
     a_n: A
     offset: 114
     length: 30
@@ -135,7 +135,7 @@ external_account_detail:
     a_n: N
     offset: 112
     length: 2
-  user_reference:
+  user_ref:
     a_n: A
     offset: 114
     length: 30

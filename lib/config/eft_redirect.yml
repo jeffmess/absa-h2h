@@ -68,7 +68,7 @@ transaction:
     a_n: N
     offset: 43
     length: 11
-  user_reference:
+  user_ref:
     a_n: A
     offset: 54
     length: 30

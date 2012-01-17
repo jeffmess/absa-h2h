@@ -23,7 +23,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
         return_code_2: "00",
         return_code_3: "00",
         return_code_4: "00",
-        user_reference: "1495050000600002236"
+        user_ref: "1495050000600002236"
       }},
       {type: 'internal_account_detail', data: {
         rec_id: "031",
@@ -37,7 +37,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
         return_code_2: "00",
         return_code_3: "00",
         return_code_4: "00",
-        user_reference: "1495050000600002236"
+        user_ref: "1495050000600002236"
       }},
       {type: 'trailer', data: {
         rec_id: "039",
@@ -68,7 +68,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
           return_code_2: "00",
           return_code_3: "00",
           return_code_4: "00",
-          user_reference: "AND033",
+          user_ref: "AND033",
           branch_code: "255023",
           originating_bank: "60",
           ld_code: "LD00000",
