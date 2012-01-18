@@ -4,7 +4,7 @@ require "yaml"
 
 module Absa
   module H2h
-     CONFIG_DIR = File.expand_path(File.dirname(__FILE__)) + "/config"
+    CONFIG_DIR = File.expand_path(File.dirname(__FILE__)) + "/config" 
   end
 end
 
@@ -18,3 +18,4 @@ require 'absa-h2h/eft'
 require 'absa-h2h/eft_output'
 require 'absa-h2h/eft_unpaid'
 require 'absa-h2h/eft_redirect'
+require 'absa-h2h/eft/rejection_code'
