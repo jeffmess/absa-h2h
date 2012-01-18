@@ -126,7 +126,7 @@ module Absa
         def total_debit_transactions
           # including credit contra records
           ccr = self.credit_contra_records == [] ? 0 : self.credit_contra_records.map(&:amount).map(&:to_i).inject(&:+)
-          self.standard_records.map(&:amount).map(&:to_i).inject(&:+) + ccr
+          (self.debit_records.map(&:amount).map(&:to_i).inject(&:+) || 0) + ccr
         end
         
         def total_credit_transactions
@@ -158,6 +158,7 @@ module Absa
         def homing_numbers_hash_total
           ns_homing_account_number_total = self.standard_records.map(&:non_standard_homing_account_number).empty? ? 0 : self.standard_records.map(&:non_standard_homing_account_number).map(&:to_i).inject(&:+)
           field9 = transactions.map(&:homing_account_number).map(&:to_i).inject(&:+) + ns_homing_account_number_total
+          field9.to_s.reverse[0,12].reverse.to_i
         end
         
         class Header < Record; end

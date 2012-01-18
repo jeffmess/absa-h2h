@@ -360,7 +360,7 @@ describe Absa::H2h::Transmission::Eft do
     @user_set[-1][:data][:no_debit_records] = "1"
     @user_set[-1][:data][:no_credit_records] = "6"
     @user_set[-1][:data][:no_contra_records] = "2"
-    @user_set[-1][:data][:total_debit_value] = "21500"
+    @user_set[-1][:data][:total_debit_value] = "1000"
     
     lambda {Absa::H2h::Transmission::Eft.build(@user_set)}.should raise_error("total_credit_value: Trailer records total credit value must equal the sum amount of all transactions and debit contra records. Expected 42000. Got 1000.")
   end
