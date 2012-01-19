@@ -62,6 +62,8 @@ module Absa::H2h::Transmission
         return Absa::H2h::Transmission::EftUnpaid
       when '016','017','018'
         return Absa::H2h::Transmission::EftRedirect
+      when '900','901','902','903'
+        return Absa::H2h::Transmission::Reply
       end
     end
     
@@ -89,19 +91,19 @@ module Absa::H2h::Transmission
     end
     
     def self.process_record(record)
-      set_info = {}
+      record_info = {}
       
       self.record_types.each do |record_type|
         klass = "#{self.name}::#{record_type.camelize}".constantize
 
         if klass.matches_definition?(record)
           options = klass.string_to_hash(record)
-          set_info = {type: record_type, data: options}
+          record_info = {type: record_type, data: options}
           break
         end
       end
       
-      set_info
+      record_info
     end
     
     def self.hash_from_s(string, transmission_type)
@@ -116,6 +118,12 @@ module Absa::H2h::Transmission
       
       lines.each do |line|
         if Set.for_record(line, transmission_type) == self
+          if subset && (buffer.length > 0)
+            set_info[:data] << subset.hash_from_s(buffer.join, transmission_type)
+            buffer = []
+            subset = nil
+          end
+          
           record = line[0, 198]
           set_info[:data] << self.process_record(record)
         else

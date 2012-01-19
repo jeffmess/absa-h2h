@@ -57,7 +57,7 @@ module Absa::H2h::Transmission
     protected
     
     def self.retrieve_field_value(string, field, rule)
-      i_dont_strip = ['rec_id','bankserv_creation_date','bankserv_purge_date','first_action_date','last_action_date','action_date'].include?(field) || rule['fixed_val']
+      i_dont_strip = ['rec_id','bankserv_creation_date','bankserv_purge_date','first_action_date','last_action_date','action_date','service_indicator'].include?(field) || rule['fixed_val']
       
       offset = rule['offset'] - 1
       length = rule['length']

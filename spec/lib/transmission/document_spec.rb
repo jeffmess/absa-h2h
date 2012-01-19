@@ -128,8 +128,23 @@ describe Absa::H2h::Transmission::Document do
     end
     
     it "should build a valid eft credit document" do
-      string = File.open("./spec/examples/eft_input_credit_file.txt", "rb").read
-      document = Absa::H2h::Transmission::Document.from_s(string, "output")
+      input_string = File.open("./spec/examples/eft_input_credit_file.txt", "rb").read
+      document = Absa::H2h::Transmission::Document.from_s(input_string, "output")
+      
+      output_string = document.to_s
+      output_string.should == input_string
+    end
+    
+  end
+  
+  context "when parsing a reply file" do
+    
+    it "should build a valid document" do
+      input_string = File.open("./spec/examples/reply_file.txt", "rb").read
+      document = Absa::H2h::Transmission::Document.from_s(input_string, "reply")
+      
+      output_string = document.to_s
+      output_string.should == input_string
     end
     
   end
