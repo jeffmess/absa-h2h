@@ -13,7 +13,7 @@ describe Absa::H2h do
           client_name: "DOUGLAS ANDERSON",
           transmission_no: "1234567",
           destination: "0",
-          th_for_use_of_ld_user: "Special Token Here"
+          th_for_use_of_ld_user: "SPECIAL TOKEN HERE"
         }
       }
     }

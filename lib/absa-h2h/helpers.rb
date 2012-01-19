@@ -59,7 +59,8 @@ module RecordWriter
   def validate!(options)
     options.each do |k,v|
       rule = layout_rules[k.to_s]
-
+      
+      raise "#{k}: Invalid character used in #{v}" unless (k == :user_ref) || (v =~ /^[A-Z0-9\.\/\-\&\*\,\(\)\<\+\$\;\>\=\'\ ]*$/) # host to host layout annexure 3
       raise "#{k}: Argument is not a string" unless v.is_a? String
       raise "#{k}: Input too long" if v.length > rule['length']
       raise "#{k}: Invalid data" if rule['regex'] && ((v =~ /#{rule['regex']}/) != 0)

@@ -63,7 +63,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
           account_number: "1094402524",
           id_number: "6703085829086",
           initials: "DA",
-          surname: "Anderson",
+          surname: "ANDERSON",
           return_code_1: "00",
           return_code_2: "00",
           return_code_3: "00",
