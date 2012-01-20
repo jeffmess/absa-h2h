@@ -40,7 +40,7 @@ module Absa::H2h::Transmission
     def self.template_options
       hash = {}
       
-      self.class_layout_rules.each do |field, rule|
+      self.exposed_class_layout_rules.each do |field, rule|
         value = rule.has_key?('fixed_val') ? rule['fixed_val'] : nil
         
         if value

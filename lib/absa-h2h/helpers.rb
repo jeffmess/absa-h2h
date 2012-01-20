@@ -78,6 +78,10 @@ module RecordWriter
       YAML.load(File.open(file_name))[record_type]
     end
     
+    def exposed_class_layout_rules
+      self.class_layout_rules.select {|key, rule| !(rule["expose"] == false && rule.has_key?("expose")) }
+    end
+    
     def filler_layout_rules
       class_layout_rules.select {|key, rule| rule.has_key?("expose") && rule["expose"] == false && rule.has_key?("fixed_val")}
     end
