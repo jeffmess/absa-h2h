@@ -25,7 +25,7 @@ module Absa::H2h::Transmission
     def self.string_to_hash(string)
       hash = {}
       
-      self.class_layout_rules.each do |field, rule|
+      self.exposed_class_layout_rules.each do |field, rule|
         hash[field.to_sym] = self.retrieve_field_value(string, field, rule)
       end
       
