@@ -4,6 +4,7 @@ header:
     offset: 1
     length: 3
     fixed_val: '000'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -41,6 +42,7 @@ trailer:
     offset: 1
     length: 3
     fixed_val: '999'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4

@@ -3,7 +3,8 @@ header:
     a_n: N
     offset: 1
     length: 3
-    fixed_val: '030' 
+    fixed_val: '030'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -22,7 +23,8 @@ trailer:
     a_n: N
     offset: 1
     length: 3
-    fixed_val: '039' 
+    fixed_val: '039'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -41,7 +43,8 @@ internal_account_detail:
     a_n: N
     offset: 1
     length: 3
-    fixed_val: '031' 
+    fixed_val: '031'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -94,6 +97,7 @@ external_account_detail:
     offset: 1
     length: 3
     fixed_val: '031'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4

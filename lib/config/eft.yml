@@ -4,6 +4,7 @@ header:
     offset: 1
     length: 3
     regex: ^001|020$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -23,21 +24,25 @@ header:
     offset: 11
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   bankserv_purge_date:
     a_n: N
     offset: 17
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   first_action_date:
     a_n: N
     offset: 23
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   last_action_date:
     a_n: N
     offset: 29
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   first_sequence_number:
     a_n: N
     offset: 35
@@ -65,6 +70,7 @@ standard_record:
     offset: 1
     length: 3
     regex: ^001|020$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -113,6 +119,7 @@ standard_record:
     offset: 63
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   entry_class:
     a_n: N
     offset: 69
@@ -144,6 +151,7 @@ contra_record:
     offset: 1
     length: 3
     regex: ^001|020$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -192,6 +200,7 @@ contra_record:
     offset: 63
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   entry_class:
     a_n: N
     offset: 69
@@ -213,6 +222,7 @@ trailer:
     offset: 1
     length: 3
     regex: ^001|020$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -240,11 +250,13 @@ trailer:
     offset: 23
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   last_action_date:
     a_n: N
     offset: 29
     length: 6
     regex: ^[0-9]{6}$
+    no_strip: true
   no_debit_records:
     a_n: N
     offset: 35

@@ -4,6 +4,7 @@ header:
     offset: 1
     length: 3
     regex: ^016$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -31,12 +32,14 @@ header:
     offset: 33
     length: 8
     regex: ^[0-9]{8}$
+    no_strip: true
 transaction:
   rec_id:
     a_n: N
     offset: 1
     length: 3
     regex: ^017$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -98,6 +101,7 @@ trailer:
     offset: 1
     length: 3
     regex: ^018$
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4

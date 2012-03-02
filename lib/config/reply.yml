@@ -3,7 +3,8 @@ transmission_status:
     a_n: N
     offset: 1
     length: 3
-    fixed_val: '900' 
+    fixed_val: '900'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -51,6 +52,7 @@ transmission_rejected_reason:
     offset: 1
     length: 3
     fixed_val: '901'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -87,6 +89,7 @@ eft_status:
     offset: 1
     length: 3
     fixed_val: '900' 
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -97,6 +100,7 @@ eft_status:
     offset: 5
     length: 3
     regex: ^001|020$
+    no_strip: true
   filler_1:
     a_n: A
     offset: 8
@@ -144,6 +148,7 @@ accepted_report_reply:
     offset: 1
     length: 3
     fixed_val: '903'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -159,6 +164,7 @@ rejected_message:
     offset: 1
     length: 3
     fixed_val: '901'
+    no_strip: true
   rec_status:
     a_n: A
     offset: 4
@@ -169,6 +175,7 @@ rejected_message:
     offset: 5
     length: 3
     regex: ^001|020|050$
+    no_strip: true
   user_code:
     a_n: A
     offset: 9
