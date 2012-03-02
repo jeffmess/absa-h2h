@@ -99,7 +99,7 @@ describe Absa::H2h::Transmission::AccountHolderVerification do
   
   it "should be able to build a header" do
     header = Absa::H2h::Transmission::AccountHolderVerification::Header.new(@internal_section_content[0][:data])
-  
+    
     string = " " * 198 + "\r\n"
     string[0,17] = "030T0000005000006"
   

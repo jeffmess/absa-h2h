@@ -1,6 +1,7 @@
 require "absa-h2h/version"
 require "active_support/core_ext/string"
 require "yaml"
+require 'strata'
 
 module Absa
   module H2h
@@ -8,7 +9,6 @@ module Absa
   end
 end
 
-require 'absa-h2h/helpers'
 require 'absa-h2h/transmission/set'
 require 'absa-h2h/transmission/record'
 require 'absa-h2h/transmission/document'

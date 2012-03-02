@@ -1,8 +1,11 @@
 module Absa::H2h::Transmission
     
   class Record
-    include RecordWriter
-    extend RecordWriter::ClassMethods
+    include Strata::RecordWriter
+    extend Strata::RecordWriter::ClassMethods
+    
+    set_record_length 198
+    set_delimiter "\r\n"
 
     def initialize(options = {})
       set_layout_variables(options)
