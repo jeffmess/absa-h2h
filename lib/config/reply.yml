@@ -1,222 +1,222 @@
 transmission_status:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '900'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   transmission_identifier:
-    a_n: N
+    data_type: N
     offset: 5
     length: 3
     fixed_val: '000'
   filler_1:
-    a_n: A
+    data_type: A
     offset: 8
     length: 14
     fixed_val: 'TRANSMISSION  '
     expose: false
   user_code:
-    a_n: N
+    data_type: N
     offset: 22
     length: 5
   filler_2:
-    a_n: A
+    data_type: A
     offset: 27
     length: 1
     fixed_val: '-'
     expose: false
   transmission_number:
-    a_n: N
+    data_type: N
     offset: 28
     length: 7
   filler_3:
-    a_n: A
+    data_type: A
     offset: 35
     length: 1
     fixed_val: '-'
     expose: false
   transmission_status:
-    a_n: A
+    data_type: A
     offset: 36
     length: 8
     regex: ^ACCEPTED|REJECTED$
 transmission_rejected_reason:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '901'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   header_record_identifier:
-    a_n: N
+    data_type: N
     offset: 5
     length: 3
     fixed_val: '000'
   filler_1:
-    a_n: A
+    data_type: A
     offset: 8
     length: 1
     fixed_val: '-'
     expose: false
   error_code:
-    a_n: N
+    data_type: N
     offset: 9
     length: 5
   filler_2:
-    a_n: A
+    data_type: A
     offset: 14
     length: 1
     fixed_val: '-'
     expose: false
   error_message:
-    a_n: A
+    data_type: A
     offset: 15
     length: 50
 eft_status:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '900' 
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   service_indicator:
-    a_n: N
+    data_type: N
     offset: 5
     length: 3
     regex: ^001|020$
     no_strip: true
   filler_1:
-    a_n: A
+    data_type: A
     offset: 8
     length: 14
     fixed_val: 'ACB USER SET  ' 
     expose: false
   user_code:
-    a_n: A
+    data_type: A
     offset: 22
     length: 4
   filler_2:
-    a_n: A
+    data_type: A
     offset: 26
     length: 1
     fixed_val: '-' 
     expose: false
   user_code_generation_number:
-    a_n: N
+    data_type: N
     offset: 27
     length: 7
   filler_3:
-    a_n: A
+    data_type: A
     offset: 34
     length: 1
     fixed_val: '-'  
     expose: false
   last_sequence_number:
-    a_n: N
+    data_type: N
     offset: 35
     length: 6
   filler_4:
-    a_n: A
+    data_type: A
     offset: 41
     length: 1
     fixed_val: '-'
     expose: false
   user_set_status:
-    a_n: A
+    data_type: A
     offset: 42
     length: 8
     regex: ^ACCEPTED|REJECTED$
 accepted_report_reply:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '903'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   accepted_report_transaction:
-    a_n: A
+    data_type: A
     offset: 5
     length: 196
 rejected_message:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '901'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   service_indicator:
-    a_n: N
+    data_type: N
     offset: 5
     length: 3
     regex: ^001|020|050$
     no_strip: true
   user_code:
-    a_n: A
+    data_type: A
     offset: 9
     length: 4
   filler_1:
-    a_n: A
+    data_type: A
     offset: 13
     length: 1
     fixed_val: "/"
     expose: false
   user_code_generation_number:
-    a_n: N
+    data_type: N
     offset: 14
     length: 7
   filler_2:
-    a_n: A
+    data_type: A
     offset: 21
     length: 1
     fixed_val: "/"    
     expose: false
   user_sequence_number:
-    a_n: N
+    data_type: N
     offset: 22
     length: 6
   filler_3:
-    a_n: A
+    data_type: A
     offset: 28
     length: 1
     fixed_val: "-"    
     expose: false
   error_code:
-    a_n: N
+    data_type: N
     offset: 29
     length: 5
   filler_4:
-    a_n: A
+    data_type: A
     offset: 34
     length: 1
     fixed_val: "-"
     expose: false
   error_message:
-    a_n: A
+    data_type: A
     offset: 35
     length: 60

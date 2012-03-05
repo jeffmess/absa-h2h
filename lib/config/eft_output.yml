@@ -1,58 +1,58 @@
 header:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     regex: ^010$
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   bankserv_user_code:
-    a_n: A
+    data_type: A
     offset: 5
     length: 4
   bankserv_generation_number:
-    a_n: N
+    data_type: N
     offset: 9
     length: 7
   bankserv_service:
-    a_n: N
+    data_type: N
     offset: 16
     length: 2
     regex: ^1|2|3|8|9$
 trailer:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     regex: ^019$
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   no_debit_records:
-    a_n: N
+    data_type: N
     offset: 5
     length: 9
   no_credit_records:
-    a_n: N
+    data_type: N
     offset: 14
     length: 9
   homing_account_hash_total:
-    a_n: N
+    data_type: N
     offset: 23
     length: 18
   debit_amount_hash_total:
-    a_n: N
+    data_type: N
     offset: 41
     length: 14
   credit_amount_hash_total:
-    a_n: N
+    data_type: N
     offset: 55
     length: 14
   

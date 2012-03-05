@@ -1,196 +1,196 @@
 header:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '030'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   gen_no:
-    a_n: N
+    data_type: N
     offset: 5
     length: 7
   dept_code:
-    a_n: A
+    data_type: A
     offset: 12
     length: 6
 trailer:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '039' 
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   no_det_recs:
-    a_n: N
+    data_type: N
     offset: 5
     length: 7
   acc_total:
-    a_n: N
+    data_type: N
     offset: 12
     length: 18
 internal_account_detail:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '031'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   seq_no:
-    a_n: N
+    data_type: N
     offset: 5
     length: 7    
   account_number:
-    a_n: N
+    data_type: N
     offset: 12
     length: 18
   id_number:
-    a_n: A
+    data_type: A
     offset: 30
     length: 13
   initials:
-    a_n: A
+    data_type: A
     offset: 43
     length: 3
     regex: ^[a-zA-Z]{0,3}$
   surname:
-    a_n: A
+    data_type: A
     offset: 46
     length: 60
   return_code_1:
-    a_n: N
+    data_type: N
     offset: 106
     length: 2
     fixed_val: '00' 
   return_code_2:
-    a_n: N
+    data_type: N
     offset: 108
     length: 2
     fixed_val: '00'
   return_code_3:
-    a_n: N
+    data_type: N
     offset: 110
     length: 2
     fixed_val: '00'
   return_code_4:
-    a_n: N
+    data_type: N
     offset: 112
     length: 2
     fixed_val: '00'
   user_ref:
-    a_n: A
+    data_type: A
     offset: 114
     length: 30
 external_account_detail:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '031'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   seq_no:
-    a_n: N
+    data_type: N
     offset: 5
     length: 7    
   account_number:
-    a_n: N
+    data_type: N
     offset: 12
     length: 18
   id_number:
-    a_n: A
+    data_type: A
     offset: 30
     length: 13
   initials:
-    a_n: A
+    data_type: A
     offset: 43
     length: 3
   surname:
-    a_n: A
+    data_type: A
     offset: 46
     length: 60
   return_code_1:
-    a_n: N
+    data_type: N
     offset: 106
     length: 2
     fixed_val: '00'
   return_code_2:
-    a_n: N
+    data_type: N
     offset: 108
     length: 2
     fixed_val: '00'
   return_code_3:
-    a_n: N
+    data_type: N
     offset: 110
     length: 2
     fixed_val: '00'
   return_code_4:
-    a_n: N
+    data_type: N
     offset: 112
     length: 2
     fixed_val: '00'
   user_ref:
-    a_n: A
+    data_type: A
     offset: 114
     length: 30
   branch_code:
-    a_n: N
+    data_type: N
     offset: 144
     length: 6
   originating_bank:
-    a_n: N
+    data_type: N
     offset: 150
     length: 6
     fixed_val: '60'
   ld_code:
-    a_n: A
+    data_type: A
     offset: 156
     length: 7
   return_code_5:
-    a_n: N
+    data_type: N
     offset: 163
     length: 2
     fixed_val: '00'
   return_code_6:
-    a_n: N
+    data_type: N
     offset: 165
     length: 2
     fixed_val: '00'
   return_code_7:
-    a_n: N
+    data_type: N
     offset: 167
     length: 2
     fixed_val: '00'
   return_code_8:
-    a_n: N
+    data_type: N
     offset: 169
     length: 2
     fixed_val: '00'
   return_code_9:
-    a_n: N
+    data_type: N
     offset: 171
     length: 2
     fixed_val: '00'
   return_code_10:
-    a_n: N
+    data_type: N
     offset: 173
     length: 2
     fixed_val: '00'

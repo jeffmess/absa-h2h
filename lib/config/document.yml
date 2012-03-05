@@ -1,54 +1,54 @@
 header:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '000'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   date:
-    a_n: N
+    data_type: N
     offset: 5
     length: 8
     regex: ^[0-9]{8}$
   client_code:
-    a_n: N
+    data_type: N
     offset: 13
     length: 5
   client_name:
-    a_n: A
+    data_type: A
     offset: 18
     length: 30
   transmission_no:
-    a_n: N
+    data_type: N
     offset: 48
     length: 7
   destination:
-    a_n: N
+    data_type: N
     offset: 55
     length: 5
     input_fixed_val: '0'
   th_for_use_of_ld_user:
-    a_n: A
+    data_type: A
     offset: 179
     length: 20
 trailer:
   rec_id:
-    a_n: N
+    data_type: N
     offset: 1
     length: 3
     fixed_val: '999'
     no_strip: true
   rec_status:
-    a_n: A
+    data_type: A
     offset: 4
     length: 1
     regex: ^T|L$
   no_of_recs:
-    a_n: N
+    data_type: N
     offset: 5
     length: 9
