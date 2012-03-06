@@ -1,7 +1,7 @@
 require "absa-h2h/version"
 require "active_support/core_ext/string"
 require "yaml"
-require 'strata'
+#require 'strata'
 
 module Absa
   module H2h
