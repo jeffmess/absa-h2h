@@ -10,7 +10,7 @@ module Absa::H2h::Transmission
     def self.build(data)
       set = self.new
       
-      data.each do |hash|  
+      data.each do |hash|
         if hash[:data].is_a? Array
           klass = "Absa::H2h::Transmission::#{hash[:type].capitalize.camelize}".constantize
           set.records << klass.build(hash[:data])
