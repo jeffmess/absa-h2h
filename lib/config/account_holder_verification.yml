@@ -164,6 +164,7 @@ external_account_detail:
     data_type: A
     offset: 156
     length: 7
+    fixed_val: 'LD00000'
   return_code_5:
     data_type: N
     offset: 163
