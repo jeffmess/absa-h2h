@@ -159,7 +159,7 @@ external_account_detail:
     data_type: N
     offset: 150
     length: 6
-    fixed_val: '60'
+    fixed_val: '000060'
   ld_code:
     data_type: A
     offset: 156
