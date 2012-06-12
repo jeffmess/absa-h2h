@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'absa-h2h'
+require 'absa-h2h/version'
+
+options = {}
+
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: opt_parser COMMAND [OPTIONS]"
+  opt.separator  ""
+  opt.separator  "Commands"
+  opt.separator  "     absa-h2h input <FILENAME>"
+  opt.separator  "     absa-h2h output <FILENAME>"
+  opt.separator  ""
+  opt.separator  "Options"
+
+  opt.on("-h","--help","help") do
+    puts opt_parser
+  end
+  
+  opt.on("-v","--version","version") do
+    puts Absa::H2h::VERSION
+  end
+end
+
+opt_parser.parse!
+
+case ARGV[0]
+when "input"
+  file = Dir.pwd + "/" + ARGV[1]
+  file_contents = File.open(file, "rb").read
+  options = Absa::H2h::Transmission::Document.hash_from_s(file_contents, 'input')
+  puts options.to_yaml
+when "output"
+  file = Dir.pwd + "/" + ARGV[1]
+  file_contents = File.open(file, "rb").read
+  options = Absa::H2h::Transmission::Document.hash_from_s(file_contents, 'input')
+  puts options.to_yaml
+else
+  puts "You need to specify input or output type"
+end
