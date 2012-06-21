@@ -19,7 +19,7 @@ transmission_status:
     data_type: A
     offset: 8
     length: 14
-    fixed_val: 'TRANSMISSION  '
+    fixed_val: ' TRANSMISSION '
     expose: false
   user_code:
     data_type: N
@@ -83,6 +83,65 @@ transmission_rejected_reason:
     data_type: A
     offset: 15
     length: 50
+ahv_status:
+  rec_id:
+    data_type: N
+    offset: 1
+    length: 3
+    fixed_val: '900' 
+    no_strip: true
+  rec_status:
+    data_type: A
+    offset: 4
+    length: 1
+    regex: ^T|L$
+  service_indicator:
+    data_type: N
+    offset: 5
+    length: 3
+    regex: ^030$
+    no_strip: true
+  filler_1:
+    data_type: A
+    offset: 8
+    length: 14
+    fixed_val: ' AHV USER SET ' 
+    expose: false
+  user_code:
+    data_type: A
+    offset: 22
+    length: 4
+  filler_2:
+    data_type: A
+    offset: 26
+    length: 1
+    fixed_val: ' ' 
+    expose: false
+  user_code_generation_number:
+    data_type: N
+    offset: 27
+    length: 7
+  filler_3:
+    data_type: A
+    offset: 34
+    length: 1
+    fixed_val: '-'  
+    expose: false
+  last_sequence_number:
+    data_type: N
+    offset: 35
+    length: 6
+  filler_4:
+    data_type: A
+    offset: 41
+    length: 1
+    fixed_val: '-'
+    expose: false
+  user_set_status:
+    data_type: A
+    offset: 42
+    length: 8
+    regex: ^ACCEPTED|REJECTED$
 eft_status:
   rec_id:
     data_type: N
@@ -105,7 +164,7 @@ eft_status:
     data_type: A
     offset: 8
     length: 14
-    fixed_val: 'ACB USER SET  ' 
+    fixed_val: ' ACB USER SET ' 
     expose: false
   user_code:
     data_type: A
@@ -135,7 +194,7 @@ eft_status:
     data_type: A
     offset: 41
     length: 1
-    fixed_val: '-'
+    fixed_val: ' '
     expose: false
   user_set_status:
     data_type: A

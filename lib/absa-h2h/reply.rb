@@ -6,6 +6,7 @@ module Absa
         class TransmissionStatus < Record; end
         class TransmissionRejectedReason < Record; end
         class EftStatus < Record; end
+        class AhvStatus < Record; end
         class AcceptedReportReply < Record; end
         class RejectedMessage < Record; end
         
