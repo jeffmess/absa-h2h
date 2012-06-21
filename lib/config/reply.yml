@@ -39,7 +39,7 @@ transmission_status:
     data_type: A
     offset: 35
     length: 1
-    fixed_val: '-'
+    fixed_val: ' '
     expose: false
   transmission_status:
     data_type: A
@@ -135,7 +135,7 @@ ahv_status:
     data_type: A
     offset: 41
     length: 1
-    fixed_val: '-'
+    fixed_val: ' '
     expose: false
   user_set_status:
     data_type: A
