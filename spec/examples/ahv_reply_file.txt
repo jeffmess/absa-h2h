@@ -1,0 +1,6 @@
+000T2012062000000RENTAL CONNECT PTY LTD        TEST   04144                                                                                                                                           
+900T000 TRANSMISSION 04144-0000001 ACCEPTED                                                                                                                                                           
+901T000 00006-*** TRANS. NUMBER NOT "TEST" - CHECK BYPASSED ***                                                                                                                                       
+900T030 AHV USER SET      AHVEXT-0000001-ACCEPTED                                                                                                                                                     
+901T000 00014-*** NO LIVE DATA WAS TRANSMITTED ***                                                                                                                                                    
+999T000000006                                                                                                                                                                                         

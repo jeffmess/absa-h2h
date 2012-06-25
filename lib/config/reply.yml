@@ -67,7 +67,7 @@ transmission_rejected_reason:
     data_type: A
     offset: 8
     length: 1
-    fixed_val: '-'
+    fixed_val: ' '
     expose: false
   error_code:
     data_type: N
@@ -107,35 +107,31 @@ ahv_status:
     length: 14
     fixed_val: ' AHV USER SET ' 
     expose: false
-  user_code:
-    data_type: A
-    offset: 22
-    length: 4
   filler_2:
     data_type: A
-    offset: 26
-    length: 1
-    fixed_val: ' ' 
+    offset: 22
+    length: 5
+    fixed_val: '     '
     expose: false
   user_code_generation_number:
-    data_type: N
+    data_type: A
     offset: 27
-    length: 7
+    length: 6
   filler_3:
     data_type: A
-    offset: 34
+    offset: 33
     length: 1
     fixed_val: '-'  
     expose: false
   last_sequence_number:
     data_type: N
-    offset: 35
-    length: 6
+    offset: 34
+    length: 7
   filler_4:
     data_type: A
     offset: 41
     length: 1
-    fixed_val: ' '
+    fixed_val: '-'
     expose: false
   user_set_status:
     data_type: A

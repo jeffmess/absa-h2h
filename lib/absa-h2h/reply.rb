@@ -4,7 +4,11 @@ module Absa
       class Reply < Set
         
         class TransmissionStatus < Record; end
-        class TransmissionRejectedReason < Record; end
+        class TransmissionRejectedReason < Record 
+          
+          set_allowed_characters ('A'..'Z').to_a + ('a'..'z').to_a + (0..9).to_a.map(&:to_s) + ['.','/','-','&','*',',','(',')','<','+','$',';','>','=',"'",' ', "\""] # move to config file
+          
+        end
         class EftStatus < Record; end
         class AhvStatus < Record; end
         class AcceptedReportReply < Record; end

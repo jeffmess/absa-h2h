@@ -149,4 +149,15 @@ describe Absa::H2h::Transmission::Document do
     
   end
   
+  context "when parsing an ahv reply file" do
+    
+    it "should build a valid document" do
+      input_string = File.open("./spec/examples/ahv_reply_file.txt", "rb").read
+      document = Absa::H2h::Transmission::Document.from_s(input_string, "reply")
+      # output_string = document.to_s
+      # output_string.should == input_string
+    end
+    
+  end
+  
 end
