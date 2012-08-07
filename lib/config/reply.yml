@@ -259,7 +259,7 @@ rejected_message:
     data_type: A
     offset: 28
     length: 1
-    fixed_val: "-"    
+    fixed_val: " "    
     expose: false
   error_code:
     data_type: N

@@ -34,7 +34,7 @@ when "input"
 when "output"
   file = Dir.pwd + "/" + ARGV[1]
   file_contents = File.open(file, "rb").read
-  options = Absa::H2h::Transmission::Document.hash_from_s(file_contents, 'input')
+  options = Absa::H2h::Transmission::Document.hash_from_s(file_contents, 'output')
   puts options.to_yaml
 else
   puts "You need to specify input or output type"
