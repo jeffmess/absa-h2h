@@ -8,8 +8,8 @@ describe Absa::H2h::Eft::RejectionCode do
     list.length.should == 52
 
     list.each do |code, reason|
-      code.is_a?(String).should be_true
-      reason.is_a?(String).should be_true
+      code.is_a?(String).should be_truthy
+      reason.is_a?(String).should be_truthy
     end
   end
   
@@ -24,8 +24,8 @@ describe Absa::H2h::Eft::RejectionCode do
     list.length.should == 267
     
     list.each do |code, qualifier|
-      code.is_a?(String).should be_true
-      qualifier.is_a?(String).should be_true
+      code.is_a?(String).should be_truthy
+      qualifier.is_a?(String).should be_truthy
     end
   end
   
