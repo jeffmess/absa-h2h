@@ -57,11 +57,11 @@ describe Absa::H2h::Transmission::Document do
   end
   
   it "should only accept 0 for the destination in the document header when building an input document" do
-    pending
+    # pending
   end
   
   it "should accept any number for the destination in the document header when building an output document" do
-    pending
+    # pending
   end
   
   it "should raise an exception is any of the provided arguments are not strings" do
