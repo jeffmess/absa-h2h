@@ -22,4 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "activesupport"
   s.add_dependency "i18n"
   s.add_dependency "strata", "~> 0.0.1"
+
+  s.add_development_dependency "rake", "0.9.2.2"
+  s.add_development_dependency "rspec", "3.3.0"
 end
