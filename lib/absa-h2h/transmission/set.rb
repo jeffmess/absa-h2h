@@ -109,13 +109,13 @@ module Absa::H2h::Transmission
     def self.hash_from_s(string, transmission_type)
       set_info = {type: self.partial_class_name.underscore, data: []}
       lines = string.split(/^/)
-            
+
       # look for rec_ids, split into chunks, and pass each related class a piece of string
       
       buffer = []
       current_set = nil
       subset = nil
-      
+ 
       lines.each do |line|
         if Set.for_record(line, transmission_type) == self
           if subset && (buffer.length > 0)
@@ -137,7 +137,7 @@ module Absa::H2h::Transmission
           end
         end
       end
-      
+
       set_info
     end
     

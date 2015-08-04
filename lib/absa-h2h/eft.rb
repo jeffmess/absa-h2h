@@ -158,6 +158,7 @@ module Absa
         def homing_numbers_hash_total
           ns_homing_account_number_total = self.standard_records.map(&:non_standard_homing_account_number).empty? ? 0 : self.standard_records.map(&:non_standard_homing_account_number).map(&:to_i).inject(&:+)
           field9 = transactions.map(&:homing_account_number).map(&:to_i).inject(&:+) + ns_homing_account_number_total
+          return field9.to_s.reverse[0,12].reverse.to_i unless self.standard_records.map(&:non_standard_homing_account_number).empty? 
           field9.to_s.reverse[0,11].reverse.to_i
         end
         
