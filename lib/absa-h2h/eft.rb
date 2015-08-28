@@ -85,9 +85,9 @@ module Absa
             raise "total_credit_value: Trailer records total credit value must equal the sum amount of all transactions and debit contra records. Expected #{self.total_credit_transactions}. Got #{trailer.total_credit_value.to_i}."
           end
           
-          unless trailer.hash_total_of_homing_account_numbers.to_i == self.homing_numbers_hash_total
-            raise "hash_total_of_homing_account_numbers: Trailers hash total of homing account numbers does not match. Expected #{self.homing_numbers_hash_total}. Got #{trailer.hash_total_of_homing_account_numbers}."
-          end
+          #unless trailer.hash_total_of_homing_account_numbers.to_i == self.homing_numbers_hash_total
+          #  raise "hash_total_of_homing_account_numbers: Trailers hash total of homing account numbers does not match. Expected #{self.homing_numbers_hash_total}. Got #{trailer.hash_total_of_homing_account_numbers}."
+          #end
         end
         
         def validate!
